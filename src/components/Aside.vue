@@ -12,7 +12,7 @@
                 </div>
                 <div class="state-cate">
                     <div>分类</div>
-                    <div v-if="store.meInfoLoaded">{{ store.meInfo.noteInfo.typeCount }}</div>
+                    <div v-if="store.meInfoLoaded && store.meInfo.noteInfo.typeCount!=undefined">{{ store.meInfo.noteInfo.typeCount }}</div>
                     <div v-else>Loading...</div>
                 </div>
                 <div class="state-tags">
