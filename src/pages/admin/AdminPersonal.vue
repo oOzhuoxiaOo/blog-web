@@ -9,7 +9,7 @@
 import { ref,reactive } from "vue";
 let errMsg = ref('获取成功')
 import  axios  from "axios";
-const personInfo = reactive(null)
+let personInfo = reactive(null)
 async function queryPersonalInfo(){
    let res = axios.get('/proxy/api/user/me')
    if(res.code != 0) {
