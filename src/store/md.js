@@ -13,10 +13,10 @@ export const useMdStore = defineStore('markdown',()=>{
         notesData : ref([]),
         isHideFoot : ref(false),
         meInfo : ref({}),
-        meInfoLoaded : ref(false),
         tagsArr: ref([]),
         typesArr: ref([]),
         cateShowArr: ref([]),
+        isLogin:ref(false),
 
     }
 
@@ -41,8 +41,21 @@ export const useMdStore = defineStore('markdown',()=>{
         try {
             let res = await axios.get('/proxy/api/user/me')
             state.meInfo.value = res.data.data
-            state.meInfoLoaded.value = true
 
+        } catch(err) {
+            console.error(err)
+        }
+    }
+
+    async function checkLogin(){
+        try {
+            let res = await axios.get('/proxy/api/user/auth/login')
+            if(res.data.code == 10) {
+                // 更新登录状态
+                state.isLogin.value = false
+            } else {
+                state.isLogin.value = true
+            }
         } catch(err) {
             console.error(err)
         }
@@ -101,6 +114,8 @@ export const useMdStore = defineStore('markdown',()=>{
 
         getNotesByTypeId,
         getNotesByTagId,
+
+        checkLogin
         
     }
 })
