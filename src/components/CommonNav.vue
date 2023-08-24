@@ -35,6 +35,15 @@ rules.hideDistance = 300 //配置距离
 
 
 <style scoped>
+
+@media (max-width:720px){
+  .nav-list {
+    & {
+      /* display: none; */
+    }
+  }
+}
+
 .nav-item {
   display: block;
   padding: 0 12px;

@@ -20,7 +20,7 @@ const store = useMdStore()
 <template>
     <div class="blog-node">
         
-        <div class="pic"></div>
+        <div class="pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0052.jpg"></div>
         <div class="header">
             <h1 class="header-title">{{store.title}}</h1>
         </div>
@@ -31,7 +31,7 @@ const store = useMdStore()
                 <router-view></router-view>
             </div>
             <!-- 侧边栏 -->
-            <Aside/>
+                <Aside/>
         </div>
     </div>
 </template>
@@ -40,13 +40,17 @@ const store = useMdStore()
 
 <style  scoped>
 
+@media screen {
+    
+}
+
 .pic {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: url("/src/assets/images/animations/cols/Pz-0052.jpg") center / cover;
+    background:  center / cover;
     z-index: -10;
 }
 .pic::after {

@@ -79,7 +79,7 @@ const testPageArr = reactive([1,2,3])
 
 }
 .note-item {
-
+    
     transition: all 0.2s;
     cursor: pointer;
 }

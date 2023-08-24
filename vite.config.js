@@ -14,6 +14,7 @@ export default defineConfig({
     }
   },
   server:{
+    host:"0.0.0.0",
     proxy:{
       // 检测以/proxy开头的请求
       '/proxy': {

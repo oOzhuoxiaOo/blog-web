@@ -12,6 +12,8 @@ import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+// 引入自定义plugin
+import vLazy from "./plugins/directive/v-lazy.js";
 
 const pinia = createPinia()
 
@@ -20,6 +22,8 @@ const app = createApp(App)
 app.use(pinia)
 
 app.use(router)
+
+app.use(vLazy)
 
 app.use(ElementPlus)
 

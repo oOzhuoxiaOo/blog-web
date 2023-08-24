@@ -16,12 +16,14 @@ function goNext(){
 <template>
     <div class="middle-content">
         <section class="chunk get-started">
-            <div class="get-started-pic"></div>
+            <div class="get-started-pic" v-lazy data-src="/src/assets/images/animations/rows/Pz-0050.jpg"></div>
             <div class="go-next" @click="goNext">
                 <IconDown :width="30" :height="30" />
             </div>
             <div class="show-me">
-                <div class="me-avator"></div>
+                <div class="me-avator">
+                    <img class="img" v-lazy data-src="/src/assets/images/avatars/av-0002.jpg" alt="头像图片">
+                </div>
                 <div class="me-introduce">
                     <p>灼眼の夏娜</p>
                     <p>千里之行，始于足下</p>
@@ -31,7 +33,7 @@ function goNext(){
             <div class="show-mask"></div>
         </section>
         <section class="chunk about-us" id="one">
-            <div class="us-restful-pic"></div>
+            <div class="us-restful-pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0013.png"></div>
             <div class="us-introduce">
                 <div class="introduce-item">
                     <div>关于我们</div>
@@ -51,7 +53,7 @@ function goNext(){
             </div>
         </section>
         <section class="chunk start-blog" id="two">
-            <div class="blog-restful-pic"></div>
+            <div class="blog-restful-pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0051.jpg"></div>
             <div class="blog-introduce">
                 <div class="blog-introduce-title">
                     写博客、互动小站
@@ -68,7 +70,7 @@ function goNext(){
             </div>
         </section>
         <section class="chunk start-navside" id="three">
-            <div class="navside-restful-pic"></div>
+            <div class="navside-restful-pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0052.jpg"></div>
             <div class="navside-introduce">
                 <div class="navside-introduce-title">
                     写博客、互动小站
@@ -92,17 +94,17 @@ function goNext(){
                 <div class="like-tip">CV时长两年半的练习生!</div>
                 <div class="like-list">
                     <div class="like-item like-type-CG">
-                        <div class="like-type-avatar"></div>
+                        <div class="like-type-avatar" v-lazy data-src="/src/assets/images/avatars/av-0005.png"></div>
                         <div class="like-type-title">CG</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
                     <div class="like-item like-type-ACG">
-                        <div class="like-type-avatar"></div>
+                        <div class="like-type-avatar" v-lazy  data-src="/src/assets/images/avatars/av-0001.jpg"></div>
                         <div class="like-type-title">ACG</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
                     <div class="like-item like-type-Music">
-                        <div class="like-type-avatar"></div>
+                        <div class="like-type-avatar" v-lazy data-src="/src/assets/images/avatars/av-0002.jpg"></div>
                         <div class="like-type-title">Music</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
@@ -119,6 +121,36 @@ function goNext(){
 
 
 <style  scoped>
+
+@media (max-width:720px){
+    .go-next {
+        & {
+            display: none;
+        }
+    }
+    .blog-introduce {
+        & {
+            width: 100%;
+            height: 50%;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            padding: 3rem 3rem;
+        }
+    }
+    .navside-introduce {
+        & {
+            width: 100%;
+            height: 50%;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            padding: 3rem 3rem;
+        }
+    }
+
+}
+
 .chunk {
     position: relative;
     width: 100%;
@@ -132,7 +164,7 @@ function goNext(){
 
 .us-restful-pic {
     height: 100%;
-    background: url("/src/assets/images/animations/cols/Pz-0013.png") no-repeat center / cover;
+    background:  no-repeat center / cover;
     background-attachment: fixed;
 }
 
@@ -185,7 +217,7 @@ function goNext(){
 .blog-restful-pic {
     width: 100%;
     height: 100%;
-    background: url("/src/assets/images/animations/cols/Pz-0051.jpg") no-repeat center / cover;
+    background: no-repeat center / cover;
     background-attachment: fixed;
 }
 
@@ -229,14 +261,18 @@ function goNext(){
 .blog-go {
     color: var(--secondary-text-color);
     margin-top: 2rem;
-    display: block;
-    width: 10rem;
-    /* padding: 10px; */
+    /* display: block; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50%;
+    /* width: 10rem; */
+    padding: 1rem;
     font-size: 1.2rem;
-    height: 4rem;
+    /* height: 4rem; */
     border: var(--secondary-text-color) solid;
 
-    line-height: 4rem;
+    /* line-height: 4rem; */
     text-align: center;
 }
 
@@ -249,11 +285,12 @@ function goNext(){
 .navside-restful-pic {
     width: 100%;
     height: 100%;
-    background: url("/src/assets/images/animations/cols/Pz-0052.jpg") no-repeat center / cover;
+    background: no-repeat center / cover;
     background-attachment: fixed;
 }
 
 .navside-introduce {
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -293,15 +330,21 @@ function goNext(){
 .navside-go {
     color: var(--secondary-text-color);
     margin-top: 2rem;
-    display: block;
-    width: 10rem;
+    /* display: block; */
+    /* width: 10rem; */
     /* padding: 10px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     font-size: 1.2rem;
     height: 4rem;
     border: var(--border-color) solid;
     /* border-radius: 0.5rem; */
     line-height: 4rem;
     text-align: center;
+    /* z-index: -1; */
+    
 }
 
 .navside-go:hover {
@@ -309,6 +352,9 @@ function goNext(){
     border: solid var(--primary-text-color);
 }
 
+.about-like {
+    height: auto;
+}
 .like-introduce {
     display: flex;
     flex-direction: column;
@@ -333,7 +379,9 @@ function goNext(){
     margin-top: 3rem;
     flex: 1;
     width: 100%;
+    gap: 1rem;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 4rem 10%;
     border: var(--debug-border);
@@ -368,15 +416,15 @@ function goNext(){
 }
 
 .like-type-CG>.like-type-avatar {
-    background: url("/src/assets/images/avatars/av-0005.png") no-repeat center / cover;
+    background:  no-repeat center / cover;
 }
 
 .like-type-ACG>.like-type-avatar {
-    background: url("/src/assets/images/avatars/av-0001.jpg") no-repeat center / cover;
+    background: no-repeat center / cover;
 }
 
 .like-type-Music>.like-type-avatar {
-    background: url("/src/assets/images/avatars/av-0002.jpg") no-repeat center / cover;
+    background: no-repeat center / cover;
 }
 
 .like-type-title {
@@ -443,24 +491,38 @@ function goNext(){
 /* show me */
 .show-me {
     width: 80%;
-    height: 50%;
+    /* height: 50%; */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: var(--debug-border);
     display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
 .me-avator {
+    overflow: hidden;
     width: 16rem;
     height: 16rem;
-    border: var(--debug-border);
-    border-radius: 50%;
-    background: url("/src/assets/images/avatars/av-0002.jpg") no-repeat center / cover;
+    /* border: var(--debug-border); */
+    /* border: solid red; */
+    /* background: url("/src/assets/images/avatars/av-0002.jpg") no-repeat center / cover; */
     /* animation: jumpAnimation 1s infinite; */
+    
+    .img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        object-fit: cover;
+        object-position: center;
+        border: solid;
+    }
 }
 
 
@@ -496,7 +558,7 @@ function goNext(){
 
 
 .get-started-pic {
-    background: no-repeat url("/src/assets/images/animations/rows/Pz-0050.jpg") center / cover;
+    background: no-repeat  center / cover;
     background-attachment: fixed;
     height: 100vh;
     width: 100%;

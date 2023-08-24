@@ -5,6 +5,8 @@ export const useChapterScroll = ()=>{
     
     
     const store = useMdStore()
+
+
     function handleScroll(){
         console.log('window事件运行中')
         const scrollTop = Math.ceil(window.scrollY);

@@ -74,6 +74,12 @@ onMounted(async () => {
 
 <style scoped>
 
+@media (max-width: 768px){
+    .aside {
+        display: none;
+    }
+}
+
 
 .author-nav {
     display: flex;
