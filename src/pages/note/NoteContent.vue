@@ -119,9 +119,11 @@ onUnmounted(() => {
 }
 
 .main-info-tags {
+    // width: 100%;
     /* margin-top: 10px; */
     display: flex;
-    gap: 8px;
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .line {
