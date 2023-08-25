@@ -2,7 +2,7 @@
 <script setup>
 
 import { ref , reactive} from "vue";
-import ErrorBar from "./ErrorBar.vue";
+import ErrorBar from "@/pages/user/ErrorBar.vue";
 import axios from "axios";
 import config from "@/config/blog.config";
 import { useCheckUserName ,useCheckPwd ,useCheckConfirmPwd} from "@/hooks/useCheck.js";
@@ -86,4 +86,4 @@ function register(){
 
 
 
-<style src="@/assets/css/auth.css" scoped></style>
+<style src="@/assets/css/auth.less" lang="less" scoped></style>

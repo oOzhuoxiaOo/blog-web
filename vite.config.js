@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  
   plugins: [
     vue(),
   ],
@@ -24,5 +25,17 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/proxy/, ''),
       },
     }
-  }
+  },
+  css: {
+    preprocessorOptions: {
+      less: {
+        math: 'parens-division',
+      },
+    },
+  },
 })
+
+
+
+
+

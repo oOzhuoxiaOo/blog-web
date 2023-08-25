@@ -1,9 +1,9 @@
 <script setup>
 import { onBeforeMount,onUnmounted } from "vue";
 import AdminMenu from "@/pages/admin/AdminMenu.vue";
-import { useCommonStore } from "../../store/common";
-const store = useCommonStore()
 
+import { useCommonStore } from "@/store/common";
+const store = useCommonStore()
 // 公共footer组件的显示与隐藏
 onBeforeMount(()=>{
     store.isHideFoot = true
