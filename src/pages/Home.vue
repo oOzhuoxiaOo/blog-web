@@ -258,15 +258,15 @@ function goNext() {
         // 介绍-item
         .introduce-item {
             display: grid;
-            grid-template-rows: repeat(2, 1fr);
+            grid-template-rows: 1fr 3fr;
             border: var(--debug-border);
             padding: 20% 0;
-            grid-row-gap: 10px;
+            grid-row-gap: 0.5rem;
 
             .title {
-                align-self: end;
+                // align-self: end;
                 border: var(--debug-border);
-                font-size: 24px;
+                font-size: 1.5rem;
                 font-weight: 500;
 
             }
@@ -274,7 +274,7 @@ function goNext() {
             .text {
                 color: var(--secondary-text-color);
                 border: var(--debug-border);
-                align-self: start;
+                // align-self: start;
             }
 
         }
@@ -345,7 +345,7 @@ function goNext() {
         color: var(--secondary-text-color);
     }
 
-    @media (max-width:720px) {
+    @media (max-width:768px) {
         width: 100%;
         height: 50%;
         padding: 3rem;
@@ -464,7 +464,7 @@ function goNext() {
                 flex-direction: column;
                 align-items: center;
                 border: var(--debug-border);
-               @media (max-width: 720px) {
+               @media (max-width: 768px) {
                 &::before {
                     content: '';
                     display: block;
@@ -517,7 +517,7 @@ function goNext() {
     align-items: center;
     cursor: pointer;
 
-    @media (max-width:720px) {
+    @media (max-width:768px) {
         display: none;
     }
 }

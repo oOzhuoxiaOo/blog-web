@@ -152,3 +152,31 @@ html {
     background-color: rgb(97, 97, 97);
   }
 }
+
+
+/* 移动端适配 */
+/* 基准字体大小设置为16px */
+html {
+  font-size: 16px;
+}
+
+/* 媒体查询和适配不同屏幕宽度 */
+@media screen and (max-width: 320px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+h2 {
+  font-size: 1.5rem; /* 相对于基准字体大小的适配文字大小 */
+}
+
+p {
+  font-size: 1rem; /* 相对于基准字体大小的适配文字大小 */
+}
