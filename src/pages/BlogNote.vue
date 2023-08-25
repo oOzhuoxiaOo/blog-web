@@ -38,7 +38,7 @@ const store = useMdStore()
 
 
 
-<style  scoped>
+<style lang="less" scoped>
 
 @media screen {
     
@@ -53,6 +53,7 @@ const store = useMdStore()
     background:  center / cover;
     z-index: -10;
 }
+
 .pic::after {
     content: '';
     display: block;
@@ -92,6 +93,10 @@ const store = useMdStore()
     /* height: 1000px; */
     display: flex;
     gap: 30px;
+    @media (max-width: 720px) {
+        width: 100%;
+        padding: 0;
+    }
 }
 
 .main {

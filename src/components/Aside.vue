@@ -72,7 +72,7 @@ onMounted(async () => {
 
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 @media (max-width: 768px){
     .aside {

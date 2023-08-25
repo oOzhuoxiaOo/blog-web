@@ -20,7 +20,7 @@
             <div class="line"></div>
             <!-- <div class="note-description">{{ noteItem.title }}</div> -->
         </div>
-        <div class="markdown-body" v-html="noteItem.mdHtml" ref="noteContentDomRef"></div>
+        <div class="markdown-body mdBody" v-html="noteItem.mdHtml" ref="noteContentDomRef"></div>
     </div>
 </template>
 
@@ -83,7 +83,10 @@ onUnmounted(() => {
 
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+
+
+
 .main-info {
     display: flex;
     flex-direction: column;
@@ -110,6 +113,9 @@ onUnmounted(() => {
     border-radius: 0.5rem;
     padding: 30px 30px;
     background-color: #0d1117;
+    @media (max-width: 720px) {
+        width: 100vw;
+    }
 }
 
 .main-info-tags {
@@ -127,4 +133,5 @@ onUnmounted(() => {
 
 .note-description {
     margin-top: 1.5rem;
-}</style>
+}
+</style>
