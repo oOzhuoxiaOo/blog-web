@@ -7,17 +7,17 @@
             <div class="author-state">
                 <div class="state-article">
                     <div>文章</div>
-                    <div v-if="store.meInfo.noteInfo">{{ store.meInfo.noteInfo.notesCount }}</div>
+                    <div v-if="store.meInfo">{{ store.meInfo.noteInfo.notesCount }}</div>
                     <div v-else>Loading...</div>
                 </div>
                 <div class="state-cate">
                     <div>分类</div>
-                    <div v-if="store.meInfo.noteInfo">{{ store.meInfo.noteInfo.typeCount }}</div>
+                    <div v-if="store.meInfo">{{ store.meInfo.noteInfo.typeCount }}</div>
                     <div v-else>Loading...</div>
                 </div>
                 <div class="state-tags">
                     <div>标签</div>
-                    <div v-if="store.meInfo.noteInfo">{{ store.meInfo.noteInfo.tagsCount }}</div>
+                    <div v-if="store.meInfo">{{ store.meInfo.noteInfo.tagsCount }}</div>
                     <div v-else>Loading...</div>
                 </div>
             </div>
@@ -62,7 +62,7 @@ function toChapterContent(index) {
 
 // 个人信息相关数据
 
-onMounted(async () => {
+onBeforeMount(() => {
     store.getMeInfo(); //请求个人信息数据
 })
 

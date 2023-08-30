@@ -1,6 +1,30 @@
 
 <script setup>
+import { ref,onMounted } from "vue";
 import IconDown from "../components/icons/IconDown.vue";
+import { useScrollAnimate } from "@/hooks/utils/useScrollAnimate";
+const scrollAnimate = useScrollAnimate()
+
+
+// 动画
+let blogIntroduce = ref([])
+let navsideIntroduce = ref([])
+let avatars = ref([])
+
+onMounted(()=>{
+    scrollAnimate.start(blogIntroduce,{
+        activeClass:['animate__animated','animate__fadeInBottomRight'],
+        threshold:0.2
+    })
+    scrollAnimate.start(navsideIntroduce,{
+        activeClass:['animate__animated','animate__fadeInBottomLeft'],
+        threshold:0.2
+    })
+    scrollAnimate.start(avatars,{
+        activeClass:['animate__animated','animate__zoomInUp'],
+        threshold:0.2
+    })
+})
 function goNext() {
     window.scrollBy({
         top: window.innerHeight,
@@ -54,7 +78,7 @@ function goNext() {
         </section>
         <section class="chunk start-blog" id="two">
             <div class="blog-restful-pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0051.jpg"></div>
-            <div class="blog-introduce">
+            <div :ref="(el)=>{blogIntroduce[0]=el}" class="blog-introduce">
                 <div class="title blog-introduce-title">
                     写博客、互动小站
                 </div>
@@ -71,7 +95,7 @@ function goNext() {
         </section>
         <section class="chunk start-navside" id="three">
             <div class="navside-restful-pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0052.jpg"></div>
-            <div class="navside-introduce">
+            <div class="navside-introduce" :ref="(el)=>{navsideIntroduce[0]=el}">
                 <div class="title navside-introduce-title">
                     写博客、互动小站
                 </div>
@@ -94,17 +118,17 @@ function goNext() {
                 <div class="like-tip">CV时长两年半的练习生!</div>
                 <div class="like-list">
                     <div class="like-item like-type-CG">
-                        <div class="like-type-avatar" v-lazy data-src="/src/assets/images/avatars/av-0005.png"></div>
+                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy data-src="/src/assets/images/avatars/av-0005.png"></div>
                         <div class="like-type-title">CG</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
                     <div class="like-item like-type-ACG">
-                        <div class="like-type-avatar" v-lazy data-src="/src/assets/images/avatars/av-0001.jpg"></div>
+                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy data-src="/src/assets/images/avatars/av-0001.jpg"></div>
                         <div class="like-type-title">ACG</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
                     <div class="like-item like-type-Music">
-                        <div class="like-type-avatar" v-lazy data-src="/src/assets/images/avatars/av-0002.jpg"></div>
+                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy data-src="/src/assets/images/avatars/av-0002.jpg"></div>
                         <div class="like-type-title">Music</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
@@ -368,6 +392,7 @@ function goNext() {
 
 /* blog */
 .start-blog {
+    overflow: hidden;
     .blog-restful-pic {
         .restful-pic();
     }
@@ -387,6 +412,7 @@ function goNext() {
 
 
 .start-navside {
+    overflow: hidden;
     .navside-restful-pic {
         .restful-pic();
     }

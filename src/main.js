@@ -1,5 +1,8 @@
 import './assets/css/base.css'
 import 'github-markdown-css/github-markdown.css'
+// 动画 animate.css
+import "animate.css";
+
 import App from './App.vue'
 import { router } from "./router/index.js";
 

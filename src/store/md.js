@@ -12,7 +12,8 @@ export const useMdStore = defineStore('markdown',()=>{
         currentPage : ref(1), //当前页数
         notesData : ref([]),
         isHideFoot : ref(false),
-        meInfo : ref({}),
+        meInfo : ref(null),
+        hasMeInfo: ref(0),
         tagsArr: ref([]),
         typesArr: ref([]),
         cateShowArr: ref([]),
@@ -41,6 +42,7 @@ export const useMdStore = defineStore('markdown',()=>{
         try {
             let res = await axios.get('/proxy/api/user/me')
             state.meInfo.value = res.data.data
+            state.hasMeInfo.value++ //获取个人信息成功
 
         } catch(err) {
             console.error(err)
