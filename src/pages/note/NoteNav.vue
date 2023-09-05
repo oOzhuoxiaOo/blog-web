@@ -122,16 +122,14 @@ onMounted(() => {
 }
 
 .note-item {
-
-    transition: all 0.2s;
-    cursor: pointer;
     visibility: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover {
+        transform: rotate(1deg);
+    }
 }
 
-.note-item:hover {
-    transform: rotate(1deg);
-
-}
 
 .page-nav {
     margin-top: 2.5rem;

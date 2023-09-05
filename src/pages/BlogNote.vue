@@ -51,6 +51,7 @@ const store = useMdStore()
     width: 100%;
     height: 100vh;
     background:  center / cover;
+    background-attachment: fixed;
     z-index: -10;
 }
 
@@ -87,8 +88,11 @@ const store = useMdStore()
 
 
 .content {
-    padding: 0 10%;
+    // padding: 0 8%;
+    // margin: 0 max(8%);
     /* border: solid; */
+    max-width: 1200px;
+    margin: 0 auto;
     border: var(--debug-border);
     /* height: 1000px; */
     display: flex;

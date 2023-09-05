@@ -15,6 +15,8 @@ const AdminUpload = ()=> import( "@/pages/admin/AdminUpload.vue");
 const AdminQuery = ()=> import( "@/pages/admin/AdminQuery.vue");
 const AdminPersonal = ()=> import( "@/pages/admin/AdminPersonal.vue");
 
+const FriendLink = ()=> import( "@/pages/others/FriendLink.vue");
+
 import { useMdStore } from "@/store/md.js";
 
 export const router = createRouter({
@@ -31,6 +33,11 @@ export const router = createRouter({
             path: '/',
             meta: { title: 'Home' },
             component: Home
+        },
+        {
+            path: '/about',
+            meta: { title: '关于我' },
+            component: UserLogin
         },
         {
             path: '/login',
@@ -69,6 +76,11 @@ export const router = createRouter({
                     component: NoteCate
                 },
                 {
+                    path: 'friend',
+                    meta: { title: '友情链接' },
+                    component: FriendLink
+                },
+                {
                     path: 'content',
                     meta: { title: '笔记详情' },
                     // 同级展示两个路由，一个为默认名路由，一个为命名路由
@@ -87,24 +99,41 @@ export const router = createRouter({
                 title: 'Admin',
                 requiresAuth: true
             },
-            component: Admin,
+            // component: Admin,
+            component: ()=> import("@/pages/AdminView.vue"),
             children: [
                 {
-                    path: 'write',
-                    component: AdminWrite
+                    path: 'admin-home',
+                    name: 'admin-home',
+                    component: ()=> import("@/components/home/AdminHome.vue")
                 },
                 {
-                    path: 'upload',
-                    component: AdminUpload
+                    path: 'users',
+                    name: 'users',
+                    component: ()=> import("@/components/users/UserManagement.vue")
                 },
                 {
-                    path: 'query',
-                    component: AdminQuery
+                    path: 'notes',
+                    name: 'notes',
+                    component: ()=> import("@/components/notes/NoteManagement.vue"),
                 },
-                {
-                    path: 'personal',
-                    component: AdminPersonal
-                },
+                
+                // {
+                //     path: 'write',
+                //     component: AdminWrite
+                // },
+                // {
+                //     path: 'upload',
+                //     component: AdminUpload
+                // },
+                // {
+                //     path: 'query',
+                //     component: AdminQuery
+                // },
+                // {
+                //     path: 'personal',
+                //     component: AdminPersonal
+                // },
             ]
         },
     ]

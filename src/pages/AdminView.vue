@@ -20,16 +20,6 @@ import AdminMenu from "@/components/layout/AdminMenu.vue";
 </script>
 
 
-
-<!-- <template>
-    <div class="admin">
-        <AdminMenu />
-        <div class="container">
-            <div class="space"></div>
-            <router-view/>
-        </div>
-    </div>
-</template> -->
 <template>
     <div class="common-layout" id="home">
       <el-container>
@@ -42,7 +32,9 @@ import AdminMenu from "@/components/layout/AdminMenu.vue";
                     <AdminMenu/>
                 </el-aside>
             </el-affix>
-          <el-main>Main</el-main>
+          <el-main>
+            <router-view/>
+          </el-main>
         </el-container>
       </el-container>
     </div>
@@ -64,18 +56,4 @@ background-color: #2b2c43;
     background-color: #2b2c43;
 }
 
-/* .admin {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-
-    .container {
-        & {
-            flex: 1;
-            border: solid;
-
-        }
-    }
-} */
 </style>

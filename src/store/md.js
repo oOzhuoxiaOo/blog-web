@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { instance } from "@/apis/config";
 import { ref , reactive } from "vue";
 import  axios  from "axios";
 
@@ -24,7 +25,7 @@ export const useMdStore = defineStore('markdown',()=>{
 
     // 请求笔记相关信息
     function getNotes(_query = {pageWhich:1,pageNum:10}){
-        axios.get('/proxy/api/user/notes',{
+        instance.get('/proxy/api/user/notes',{
             params:{
                 pageWhich:_query.pageWhich, //页数
                 pageNum:_query.pageNum //一页多少数据
@@ -40,7 +41,7 @@ export const useMdStore = defineStore('markdown',()=>{
     // 请求个人相关信息
     async function getMeInfo(){
         try {
-            let res = await axios.get('/proxy/api/user/me')
+            let res = await instance.get('/proxy/api/user/me')
             state.meInfo.value = res.data.data
             state.hasMeInfo.value++ //获取个人信息成功
 
@@ -51,7 +52,7 @@ export const useMdStore = defineStore('markdown',()=>{
 
     async function checkLogin(){
         try {
-            let res = await axios.get('/proxy/api/user/auth/login')
+            let res = await instance.get('/proxy/api/user/auth/login')
             if(res.data.code == 10) {
                 // 更新登录状态
                 state.isLogin.value = false
@@ -66,7 +67,7 @@ export const useMdStore = defineStore('markdown',()=>{
     // 请求所有标签
     async function getAllTags(){
         try {
-            let res = await axios.get('/proxy/api/user/tags')
+            let res = await instance.get('/proxy/api/user/tags')
             state.tagsArr.value = res.data.data
 
         } catch(err) {
@@ -76,7 +77,7 @@ export const useMdStore = defineStore('markdown',()=>{
     // 请求所有类别
     async function getAllTypes(){
         try {
-            let res = await axios.get('/proxy/api/user/types')
+            let res = await instance.get('/proxy/api/user/types')
             state.typesArr.value = res.data.data
 
         } catch(err) {
@@ -87,7 +88,7 @@ export const useMdStore = defineStore('markdown',()=>{
     async function getNotesByTypeId(_typeId){
         try {
             let url = '/proxy/api/user/notes/types/' + _typeId
-            let res = await axios.get(url)
+            let res = await instance.get(url)
             state.cateShowArr.value = res.data.data
 
         } catch(err) {
@@ -98,7 +99,7 @@ export const useMdStore = defineStore('markdown',()=>{
     async function getNotesByTagId(_tagId){
         try {
             let url = '/proxy/api/user/notes/tags/' + _tagId
-            let res = await axios.get(url)
+            let res = await instance.get(url)
             state.cateShowArr.value = res.data.data
 
         } catch(err) {

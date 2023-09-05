@@ -107,7 +107,7 @@ if (note.img.isHasImg) {
         }
     }
 
-    @media (max-width: 420px) {
+    @media (max-width: 765px) {
         & {
             height: 400px;
             flex-direction: column;

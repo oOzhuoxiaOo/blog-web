@@ -1,5 +1,8 @@
 <script setup>
 import IconTag from "@/components/icons/IconTag.vue";
+import IconCate from "@/components/icons/IconCate.vue";
+
+
 import { useMdStore } from "../../store/md.js";
 import { onMounted } from "vue";
 import { useRouter,useRoute } from "vue-router";
@@ -53,7 +56,7 @@ function goNoteContent(item,index){
             <div class="comon-list types-list">
                 <template v-for="item in store.typesArr">
                     <div class="comon-btn type-item" @click="getAboutNotesByTypeId(item)">
-                        <IconTag/> <span>{{ item.typename }}</span>
+                        <IconCate/> <span>{{ item.typename }}</span>
                     </div>
                 </template>
             </div>
@@ -81,7 +84,7 @@ function goNoteContent(item,index){
 
 
 
-<style scoped>
+<style lang="less" scoped>
 .cate {
     border: var(--debug-border);
     /* border: solid; */

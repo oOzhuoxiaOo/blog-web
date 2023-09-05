@@ -91,6 +91,8 @@
   /* 强调色 */
   --primary-emphasis-color: #61dafb;
   --secondary-emphasis-color: #ffc107;
+
+  --cart-boxShadow: 0 0 10px 3px rgba(0,0,0,0.1);
 }
 
 .mode-common {

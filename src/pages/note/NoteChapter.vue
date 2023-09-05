@@ -25,7 +25,7 @@ function toChapterContent(index){
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 
 .cart {
     background-color: var(--secondary-bg-color);

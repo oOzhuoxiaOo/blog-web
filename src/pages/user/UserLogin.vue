@@ -9,6 +9,7 @@ import { useCheckUserName ,useCheckPwd } from "@/hooks/useCheck.js";
 import { useCommonStore } from "@/store/common";
 const store = useCommonStore()
 import { useRouter } from "vue-router";
+import { ElMessage } from 'element-plus'
 
 // 公共footer组件的显示与隐藏
 onBeforeMount(()=>{
@@ -52,8 +53,12 @@ function login(){
             return 0;
         }
         // 登录成功，n秒跳转笔记页
-        errMsg.value = res.data.msg + ",2s后跳转到笔记页"
+        const successInstance = ElMessage({
+            message:'登录成功,2秒跳转笔记页',
+            type:'success',
+        })
         setTimeout(()=>{
+            successInstance.close();
             router.push("/note")
         },2000)
     
