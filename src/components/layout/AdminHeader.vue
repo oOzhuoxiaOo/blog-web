@@ -7,7 +7,7 @@
         <div class="title">博客笔记管理</div>
         <div class="avatar-box">
             <el-avatar
-        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        :src="userInfoStore.userInfo.avatar"
       />
         </div>
     </div>
@@ -15,7 +15,8 @@
 </template>
 
 <script setup>
-
+import { useUserInfoStore } from "@/store/userInfo.store";
+const userInfoStore = useUserInfoStore();
 </script>
 
 <style lang="less" scoped>

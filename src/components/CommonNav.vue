@@ -34,9 +34,7 @@ function handleHideAuthor() {
         <router-link to="/note/nav" class="nav-item" active-class="route-active">Note</router-link>
         <!-- <router-link to="/about" class="nav-item" active-class="route-active">About</router-link> -->
         <!-- <router-link to="/about" class="nav-item" active-class="route-active">About</router-link> -->
-        <router-link to="/login" class="nav-item" active-class="route-active">Login</router-link>
         <router-link to="/note/friend" class="nav-item" active-class="route-active">友链</router-link>
-        <router-link to="/admin" class="nav-item" active-class="route-active">Admin</router-link>
         <div class="mobile-nav-item more" @click="handleShowAuthor">
           <IconMore />
         </div>

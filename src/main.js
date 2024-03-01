@@ -4,11 +4,11 @@ import 'github-markdown-css/github-markdown.css'
 import "animate.css";
 
 import App from './App.vue'
-import { router } from "./router/index.js";
+// import { router } from "./router/index.js";
 
 
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+// import { createPinia } from 'pinia'
 
 
 // elm-UI
@@ -18,16 +18,19 @@ import 'element-plus/dist/index.css'
 // 引入自定义plugin
 import vLazy from "./plugins/directive/v-lazy.js";
 
-const pinia = createPinia()
-
 const app = createApp(App)
-
-
-
-app.use(pinia)
-
-app.use(router)
 
 app.use(vLazy)
 
-app.mount('#app')
+console.log('此时在app紧跟后')
+// 异步引入pinia和router
+async function asyncRegister() {
+    console.log('执行asyncRegister了')
+    const createPinia = (await import('pinia')).createPinia;
+    app.use(createPinia());
+    const router = (await import("@/router")).router;
+    app.use(router)
+    app.mount('#app')
+}
+
+asyncRegister()

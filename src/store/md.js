@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { instance } from "@/apis/config";
+import { $http } from "@/apis/index.js";
 import { ref , reactive } from "vue";
 import  axios  from "axios";
+import blogConfig from "@/config/blog.config.js";
 
 export const useMdStore = defineStore('markdown',()=>{
 
@@ -23,26 +24,18 @@ export const useMdStore = defineStore('markdown',()=>{
     }
 
 
-    // 请求笔记相关信息
-    function getNotes(_query = {pageWhich:1,pageNum:10}){
-        instance.get('/proxy/api/user/notes',{
-            params:{
-                pageWhich:_query.pageWhich, //页数
-                pageNum:_query.pageNum //一页多少数据
-            }
 
-        }).then((req)=>{
-            state.notesData.value = req.data.data
-        }).catch(err=>{
-            console.error(err)
-        })
-    }
 
     // 请求个人相关信息
+    
     async function getMeInfo(){
         try {
-            let res = await instance.get('/proxy/api/user/me')
-            state.meInfo.value = res.data.data
+            let dataRes = await $http({
+                method:"get",
+                url:'/api/web/me',
+            }
+                )
+            state.meInfo.value = dataRes.data
             state.hasMeInfo.value++ //获取个人信息成功
 
         } catch(err) {
@@ -52,8 +45,14 @@ export const useMdStore = defineStore('markdown',()=>{
 
     async function checkLogin(){
         try {
-            let res = await instance.get('/proxy/api/user/auth/login')
-            if(res.data.code == 10) {
+            
+            let dataRes = await $http(
+                {
+                    method:"get",
+                    url:'/api/user/auth/login',
+                }
+            )
+            if(dataRes.code == 10) {
                 // 更新登录状态
                 state.isLogin.value = false
             } else {
@@ -67,8 +66,11 @@ export const useMdStore = defineStore('markdown',()=>{
     // 请求所有标签
     async function getAllTags(){
         try {
-            let res = await instance.get('/proxy/api/user/tags')
-            state.tagsArr.value = res.data.data
+            let dataRes = await $http({
+                method:'get',
+                url:'/api/web/tags',
+            })
+            state.tagsArr.value = res.data
 
         } catch(err) {
             console.error(err)
@@ -77,8 +79,11 @@ export const useMdStore = defineStore('markdown',()=>{
     // 请求所有类别
     async function getAllTypes(){
         try {
-            let res = await instance.get('/proxy/api/user/types')
-            state.typesArr.value = res.data.data
+            let dataRes = await $http({
+                method:'get',
+                url:'/api/web/types',
+            })
+            state.typesArr.value = dataRes.data
 
         } catch(err) {
             console.error(err)
@@ -87,8 +92,8 @@ export const useMdStore = defineStore('markdown',()=>{
     // 请求note数据关于类别
     async function getNotesByTypeId(_typeId){
         try {
-            let url = '/proxy/api/user/notes/types/' + _typeId
-            let res = await instance.get(url)
+            let url = '/api/web/notes/types/' + _typeId
+            let res = await $http.get(url)
             state.cateShowArr.value = res.data.data
 
         } catch(err) {
@@ -98,8 +103,8 @@ export const useMdStore = defineStore('markdown',()=>{
     // 请求note数据关于标签
     async function getNotesByTagId(_tagId){
         try {
-            let url = '/proxy/api/user/notes/tags/' + _tagId
-            let res = await instance.get(url)
+            let url = '/api/web/notes/tags/' + _tagId
+            let res = await $http.get(url)
             state.cateShowArr.value = res.data.data
 
         } catch(err) {
@@ -109,7 +114,7 @@ export const useMdStore = defineStore('markdown',()=>{
 
     return {
         ...state,
-        getNotes,
+        // getNotes,
         getMeInfo,
         
         getAllTags,

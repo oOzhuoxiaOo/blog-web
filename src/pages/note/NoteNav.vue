@@ -8,13 +8,13 @@
         </TransitionGroup>
     </div>
     <div class="page-nav">
-        <div class="back-page" @click="goPageBack" v-show="store.currentPage !== 1">上一页</div>
+        <div class="back-page" @click="goPageBack" v-show="currentPage !== 1">上一页</div>
         <div class="page-list">
-            <div :class="['page-item', idx + 1 == store.currentPage ? 'active' : '']" @click="goPageWhich(idx + 1)"
+            <div :class="['page-item', idx + 1 == currentPage ? 'active' : '']" @click="goPageWhich(idx + 1)"
                 v-for="(item, idx) in notesPageCount" :key="idx">{{ item }}</div>
         </div>
         <!-- 当为第一页时，不显示上一页，反之 -->
-        <div class="next-page" @click="goPageNext" v-show="store.currentPage !== notesPageCount">下一页</div>
+        <div class="next-page" @click="goPageNext" v-show="currentPage !== notesPageCount">下一页</div>
     </div>
 </template>
 
@@ -24,29 +24,36 @@ import { onBeforeMount, reactive, onMounted, ref, watch, nextTick, watchEffect }
 import { useMdStore } from "@/store/md";
 import { useRoute, useRouter } from "vue-router";
 import { useBackTop } from "@/hooks/utils/useBackTop";
+import { ElLoading} from "element-plus";
 
 // 使用标题功能
 import { useTitle } from "../../hooks/note/useTitle";
 useTitle()
 // 使用下拉动画
 import { useScrollAnimate } from "@/hooks/utils/useScrollAnimate";
+
+
 const scrollAnimate = useScrollAnimate()
-
 const router = useRouter()
-
-
 import NoteItem from "./NoteItem.vue";
 const store = useMdStore()
 
+import { getNoteInfoApi } from "@/apis/noteInfo.js"
 
 
-onBeforeMount(() => {
-    // 更新笔记数据
-    console.log('NoteNav加载前______')
-    store.currentPage = 1
-    store.getNotes()
-})
 
+// 初始化笔记数据
+const currentPage = ref(1)
+const getNoteInfo = async()=>{
+    const dataRes = await getNoteInfoApi();
+    store.notesData = dataRes.data
+}
+getNoteInfo()
+
+
+
+
+// 路由到笔记内容
 function goNoteContent(item, index) {
     router.push({
         path: '/note/content',
@@ -57,29 +64,38 @@ function goNoteContent(item, index) {
     store.title = item.title
 }
 
+
+
 // 到哪一页
-function goPageWhich(pageIdx) {
-    store.currentPage = pageIdx
-    store.getNotes({ pageWhich: pageIdx, pageNum: 10 })
+async function goPageWhich(pageIdx) {
+    currentPage.value = pageIdx
+    // const loadingInstance =  ElLoading.service()
+    const dataRes = await getNoteInfoApi({ pageWhich: currentPage.value, pageNum: 10 });
+    store.notesData = dataRes.data
+    await nextTick()
     useBackTop()
 }
 
 // 下一页
-function goPageNext() {
-    store.currentPage++ //下一页
-    store.getNotes({ pageWhich: store.currentPage, pageNum: 10 })
+async function goPageNext() {
+    currentPage.value++ //下一页
+    const dataRes = await getNoteInfoApi({ pageWhich: currentPage.value, pageNum: 10 });
+    store.notesData = dataRes.data
     useBackTop()
 }
 
 // 上一页
-function goPageBack() {
-    store.currentPage-- //上一页
-    store.getNotes({ pageWhich: store.currentPage, pageNum: 10 })
+async function goPageBack() {
+    currentPage-- //上一页
+    // store.getNotes({ pageWhich: store.currentPage, pageNum: 10 })
+    const dataRes = await getNoteInfoApi({ pageWhich:currentPage.value, pageNum: 10 });
+    store.notesData = dataRes.data
     useBackTop()
 }
 
 // 默认页数为1
 let notesPageCount = ref(1);
+
 onMounted(() => {
     watch(() => store.hasMeInfo, (newVal, oldVal) => {
         console.log('new:', newVal, 'old:', oldVal)
@@ -91,15 +107,16 @@ onMounted(() => {
 
 })
 
+
+
+
 // 下拉动画
 let noteItems = ref([]);
 onMounted(() => {
-   scrollAnimate.start(noteItems,{
-    activeClass:['animate__animated','animate__fadeInUp']
-   })
+    scrollAnimate.start(noteItems, {
+        activeClass: ['animate__animated', 'animate__fadeInUp']
+    })
 })
-
-
 
 </script>
 
@@ -125,6 +142,7 @@ onMounted(() => {
     visibility: hidden;
     cursor: pointer;
     transition: all 0.2s;
+
     &:hover {
         transform: rotate(1deg);
     }

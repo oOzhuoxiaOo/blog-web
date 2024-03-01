@@ -1,23 +1,18 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 // 路由懒加载(按需加载)
-const Home = ()=> import( "@/pages/Home.vue");
-const UserLogin = ()=> import( "@/pages/user/UserLogin.vue");
-const UserRegister = ()=> import( "@/pages/user//UserRegister.vue");
-const UserResetPassword = ()=> import( "@/pages/user/UserResetPassword.vue");
-const BlogNote = ()=> import( "@/pages/BlogNote.vue");
-const Admin = ()=> import( "@/pages/admin/Admin.vue");
-const NoteContent = ()=> import( "@/pages/note/NoteContent.vue");
-const NoteNav = ()=> import( "@/pages/note/NoteNav.vue");
-const NoteCate = ()=> import( "@/pages/note/NoteCate.vue");
-const NoteChapter = ()=> import( "@/pages/note/NoteChapter.vue");
-const AdminWrite = ()=> import( "@/pages/admin/AdminWrite.vue");
-const AdminUpload = ()=> import( "@/pages/admin/AdminUpload.vue");
-const AdminQuery = ()=> import( "@/pages/admin/AdminQuery.vue");
-const AdminPersonal = ()=> import( "@/pages/admin/AdminPersonal.vue");
+const Home = () => import("@/pages/Home.vue");
+const UserLogin = () => import("@/pages/user/UserLogin.vue");
+const UserRegister = () => import("@/pages/user//UserRegister.vue");
+const UserResetPassword = () => import("@/pages/user/UserResetPassword.vue");
+const BlogNote = () => import("@/pages/BlogNote.vue");
+const Admin = () => import("@/pages/admin/Admin.vue");
+const NoteContent = () => import("@/pages/note/NoteContent.vue");
+const NoteNav = () => import("@/pages/note/NoteNav.vue");
+const NoteCate = () => import("@/pages/note/NoteCate.vue");
+const NoteChapter = () => import("@/pages/note/NoteChapter.vue");
 
-const FriendLink = ()=> import( "@/pages/others/FriendLink.vue");
+const FriendLink = () => import("@/pages/others/FriendLink.vue");
 
-import { useMdStore } from "@/store/md.js";
 
 export const router = createRouter({
     history: createWebHashHistory(),
@@ -31,34 +26,19 @@ export const router = createRouter({
     routes: [
         {
             path: '/',
-            meta: { title: 'Home' },
+            meta: { title: 'Home', requiresAuth: false },
             component: Home
         },
         {
             path: '/about',
-            meta: { title: '关于我' },
+            meta: { title: '关于我', requiresAuth: false },
             component: UserLogin
         },
-        {
-            path: '/login',
-            name: 'Login',
-            meta: { title: 'Login' },
-            component: UserLogin
-        },
-        {
-            path: '/register',
-            meta: { title: 'Register' },
-            component: UserRegister
-        },
-        {
-            path: '/resetpassword',
-            meta: { title: 'Reset' },
-            component: UserResetPassword
-        },
+
         {
             path: '/note',
             meta: {
-                requiresAuth: true //验证身份
+                requiresAuth: false //验证身份
             },
             component: BlogNote,
             redirect: '/note/nav', //重定向
@@ -93,74 +73,25 @@ export const router = createRouter({
 
             ]
         },
-        {
-            path: '/admin',
-            meta: {
-                title: 'Admin',
-                requiresAuth: true
-            },
-            // component: Admin,
-            component: ()=> import("@/pages/AdminView.vue"),
-            children: [
-                {
-                    path: 'admin-home',
-                    name: 'admin-home',
-                    component: ()=> import("@/components/home/AdminHome.vue")
-                },
-                {
-                    path: 'users',
-                    name: 'users',
-                    component: ()=> import("@/components/users/UserManagement.vue")
-                },
-                {
-                    path: 'notes',
-                    name: 'notes',
-                    component: ()=> import("@/components/notes/NoteManagement.vue"),
-                },
-                
-                // {
-                //     path: 'write',
-                //     component: AdminWrite
-                // },
-                // {
-                //     path: 'upload',
-                //     component: AdminUpload
-                // },
-                // {
-                //     path: 'query',
-                //     component: AdminQuery
-                // },
-                // {
-                //     path: 'personal',
-                //     component: AdminPersonal
-                // },
-            ]
-        },
+      
     ]
 })
+
+
+import { useUserInfoStore } from "@/store/userInfo.store";
+const userInfoStore = useUserInfoStore();
+
+// 路由前置守卫.验证用户身份，检查权限
+// to 即将进入的目标路由对象，包含路径、参数、查询参数等
+// from 当前导航正要离开的路由对象，包含了当前的路由信息
+// next 函数，控制导航的行为，可以接收一个参数，指定导航的目标路由
 router.beforeEach(async (to, from, next) => {
-    console.log('@to:', to)
-    // 是否需要身份验证
-    if (to.meta.requiresAuth) {
-        let mdStore = useMdStore()
-        await mdStore.checkLogin()
-        // 如果没有登录,跳转登录页
-        console.log('验证了')
-        if (!mdStore.isLogin) {
-            next('/login');
-        } else {
-            next()
-        }
-        console.log('store是否在全局前置使用', mdStore)
-        if (to.meta.hasOwnProperty('title')) {
-            // 设置document标题
-            document.title = to.meta.title
-        }
-
-    } else {
-        // 直接放行
+    // 是否需要身份验证(路由权限、本地token存在)
+    if (!to.meta.requiresAuth || userInfoStore.authFromLocal()) {
+        console.log('需要登录权限,并且具有token')
         next()
+    } else {
+        // 没有登录则跳转登录页
+        next('/login');
     }
-
-
 })

@@ -28,15 +28,16 @@ export default defineConfig({
   },
   server:{
     host:"0.0.0.0",
-    proxy:{
-      // 检测以/proxy开头的请求
-      '/proxy': {
-        target: 'http://127.0.0.1:9000',
-        changeOrigin: true,
-        // 将/proxy替换为空字符串
-        rewrite: (path) => path.replace(/^\/proxy/, ''),
-      },
-    }
+    port: 5174
+    // proxy:{
+    //   // 检测以/proxy开头的请求
+    //   '/proxy': {
+    //     target: 'http://127.0.0.1:9000',
+    //     changeOrigin: true,
+    //     // 将/proxy替换为空字符串
+    //     rewrite: (path) => path.replace(/^\/proxy/, ''),
+    //   },
+    // }
   },
   css: {
     preprocessorOptions: {

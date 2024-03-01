@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
+    "dev": "vite  --open",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -11,12 +11,14 @@
     "@element-plus/icons-vue": "^2.1.0",
     "animate.css": "^4.1.1",
     "axios": "^1.4.0",
+    "echarts": "^5.4.3",
     "element-plus": "^2.3.9",
     "github-markdown-css": "^5.2.0",
     "markdown-it": "^13.0.1",
     "moment": "^2.29.4",
     "pinia": "^2.1.4",
     "vue": "^3.3.4",
+    "vue-echarts": "^6.6.1",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {

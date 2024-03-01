@@ -2,15 +2,19 @@
     <div class="wrap">
         <AdminOverview class="item"></AdminOverview>
         <PieChart class="item"></PieChart>
-        <barChar class="item"></barChar>
+        <BarChart class="item"></BarChart>
         <LineChart class="item"></LineChart>
     </div>
 </template>
 
 <script setup>
+
 import AdminOverview from "./adminHome/AdminOverview.vue";
-import PieChart from "./adminHome/PieChart.vue";
-import barChar from "./adminHome/barChar.vue";
+
+import PieChart from "./adminHome/pieChart.vue";
+
+import BarChart from "./adminHome/BarChart.vue";
+
 import LineChart from "./adminHome/LineChart.vue";
 
 </script>

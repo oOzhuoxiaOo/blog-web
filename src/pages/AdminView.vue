@@ -17,6 +17,34 @@ onUnmounted(()=>{
 import AdminHeader from "@/components/layout/AdminHeader.vue";
 import AdminMenu from "@/components/layout/AdminMenu.vue";
 
+import { useUserInfoStore } from "@/store/userInfo.store";
+import { getBlogInfoApi } from "@/apis/userInfo";
+const userInfoStore = useUserInfoStore();
+
+const getUserInfo = async ()=> {
+  // 此时还没有写用户接口，先用假数据
+  const res = {
+    code: 0,
+    message:'成功',
+    data: {
+      userInfo: {
+        avatar:'https://pic2.zhimg.com/v2-4d89a56482dde519bc1d530e005401ad_r.jpg?source=1940ef5c',
+        email: '11111111111@qq.com',
+        nickname:'管理员',
+        phoneNumber:'11111111111',
+        username:'xiana'
+      }
+    }
+  }
+  // 用户：仓库更新数据
+  userInfoStore.userInfo = res.data.userInfo
+}
+
+// 调用函数获取数据
+getUserInfo();
+
+
+
 </script>
 
 
@@ -46,6 +74,8 @@ import AdminMenu from "@/components/layout/AdminMenu.vue";
 
 <style  scoped>
 #home {
+  background-color: #fff;
+  color: rgb(0, 0, 0);
     min-height: 100vh;
 }
 .el-header {
