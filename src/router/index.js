@@ -1,11 +1,8 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 // 路由懒加载(按需加载)
 const Home = () => import("@/pages/Home.vue");
-const UserLogin = () => import("@/pages/user/UserLogin.vue");
-const UserRegister = () => import("@/pages/user//UserRegister.vue");
-const UserResetPassword = () => import("@/pages/user/UserResetPassword.vue");
 const BlogNote = () => import("@/pages/BlogNote.vue");
-const Admin = () => import("@/pages/admin/Admin.vue");
+
 const NoteContent = () => import("@/pages/note/NoteContent.vue");
 const NoteNav = () => import("@/pages/note/NoteNav.vue");
 const NoteCate = () => import("@/pages/note/NoteCate.vue");
