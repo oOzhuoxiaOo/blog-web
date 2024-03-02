@@ -25,10 +25,11 @@ export default {
                                 console.log('交叉成功,src赋值')
                                 // 交叉为true，执行图片src处理
                                 // 将图片标签自定义属性的src赋值给src
-                                item.target.src = item.target.dataset.src
+                               
+                                item.target.src =  item.target.getAttribute(`data_src`);
                             } else {
                                 // 为其他标签时赋值bgi
-                                item.target.style.backgroundImage = `url(${item.target.dataset.src})`
+                                item.target.style.backgroundImage = `url(${item.target.getAttribute(`data_src`)})`
 
                             }
                             // 加载图后卸载侦听

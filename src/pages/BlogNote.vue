@@ -12,6 +12,7 @@ import { useMdStore } from "@/store/md";
 
 const store = useMdStore()
 
+import img_Pz_0052 from "@/assets/images/animations/cols/Pz-0052.jpg"
 
 
 </script>
@@ -20,7 +21,7 @@ const store = useMdStore()
 <template>
     <div class="blog-node">
         
-        <div class="pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0052.jpg"></div>
+        <div class="pic" v-lazy :data_src="img_Pz_0052"></div>
         <div class="header">
             <h1 class="header-title">{{store.title}}</h1>
         </div>

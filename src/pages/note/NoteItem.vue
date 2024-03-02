@@ -1,6 +1,6 @@
 <template>
     <div class="cart-note-item">
-        <div :class="['note-item-pic', order ? 'after' : '']" :data-src="stylePic.backgroundImage" v-lazy></div>
+        <div :class="['note-item-pic', order ? 'after' : '']" :data_src="stylePic.backgroundImage" v-lazy></div>
         <div class="note-introduce">
             <div class="introduce-tips">
                 <div class="publish-date">{{ filteredDate }}</div>

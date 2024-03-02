@@ -2,16 +2,22 @@
 
 <script setup>
 
-import { onMounted, nextTick } from "vue";
+import { onMounted, nextTick, reactive,ref } from "vue";
 import { ElLoading } from "element-plus";
 import { ElMessage } from 'element-plus'
-
-
+import { getBlogFriendsApi } from "@/apis/friends.js"
+let friendsList = ref([{
+    name:'xiana',
+    imgUrl:"aa",
+    description:"dd"
+}]);
+const getFriends = async()=>{
+    const resData = await getBlogFriendsApi();
+    console.log("resData为:",resData)
+    friendsList.value = resData.data
+}
 onMounted(()=>{
-    // const loadingInstance = ElLoading.service()
-    // ElMessage({
-    //     message:"你好啊"
-    // })
+    getFriends();
 })
 
 </script>
@@ -20,33 +26,16 @@ onMounted(()=>{
     <div class="friend">
         <h2 class="main-title">小伙伴们</h2>
         <div class="friend-list">
-            <div class="friend-item">
+            <div class="friend-item" v-for="(item,idx) in friendsList" :key="idx">
                 <div class="avatar">
-                    <img src="../../assets/images/avatars/av-0003.jpg" alt="">
+                    <img :src="item.imgUrl" alt="">
                 </div>
                 <div class="content">
-                    <div class="title">D-Xiana</div>
-                    <div class="text">主站,ShokaX主题</div>
+                    <div class="title">{{ item.name }}</div>
+                    <div class="text">{{ item.description }}</div>
                 </div>
             </div>
-            <div class="friend-item">
-                <div class="avatar">
-                    <img src="../../assets/images/avatars/av-0003.jpg" alt="">
-                </div>
-                <div class="content">
-                    <div class="title">D-Xiana</div>
-                    <div class="text">主站,ShokaX主题</div>
-                </div>
-            </div>
-            <div class="friend-item">
-                <div class="avatar">
-                    <img src="../../assets/images/avatars/av-0003.jpg" alt="">
-                </div>
-                <div class="content">
-                    <div class="title">D-Xiana</div>
-                    <div class="text">主站,ShokaX主题</div>
-                </div>
-            </div>
+
         </div>
     </div>
 </template>

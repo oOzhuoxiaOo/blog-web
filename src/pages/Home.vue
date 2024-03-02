@@ -1,5 +1,6 @@
 
 <script setup>
+
 import { ref,onMounted } from "vue";
 import IconDown from "../components/icons/IconDown.vue";
 import { useScrollAnimate } from "@/hooks/utils/useScrollAnimate";
@@ -32,21 +33,30 @@ function goNext() {
         behavior: 'smooth'
     })
 }
+
+
+
+// 静态资源图片路径引入
+import img_Pz_0050 from "@/assets/images/animations/rows/Pz-0050.jpg"
+import img_Pz_0013 from "@/assets/images/animations/cols/Pz-0013.png"
+import img_Pz_0051 from "@/assets/images/animations/cols/Pz-0051.jpg"
+import img_Pz_0052 from "@/assets/images/animations/cols/Pz-0052.jpg"
+import img_av_0005 from "@/assets/images/avatars/av-0005.png"
+import img_av_0001 from "@/assets/images/avatars/av-0001.jpg"
+import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
+
 </script>
-
-
-
 
 <template>
     <div class="middle-content">
         <section class="chunk get-started">
-            <div class="get-started-pic" v-lazy data-src="/src/assets/images/animations/rows/Pz-0050.jpg"></div>
+            <div class="get-started-pic" v-lazy :data_src="img_Pz_0050"></div>
             <div class="go-next" @click="goNext">
                 <IconDown :width="30" :height="30" />
             </div>
             <div class="show-me">
                 <div class="me-avator">
-                    <img class="img" v-lazy data-src="/src/assets/images/avatars/av-0002.jpg" alt="头像图片">
+                    <img class="img" v-lazy :data_src="img_av_0002" alt="头像图片">
                 </div>
                 <div class="me-introduce">
                     <p>灼眼の夏娜</p>
@@ -57,7 +67,7 @@ function goNext() {
             <div class="show-mask"></div>
         </section>
         <section class="chunk about-us" id="one">
-            <div class="us-restful-pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0013.png"></div>
+            <div class="us-restful-pic" v-lazy :data_src="img_Pz_0013"></div>
             <div class="us-introduce">
                 <div class="introduce-item">
                     <div class="title">关于我们</div>
@@ -77,7 +87,7 @@ function goNext() {
             </div>
         </section>
         <section class="chunk start-blog" id="two">
-            <div class="blog-restful-pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0051.jpg"></div>
+            <div class="blog-restful-pic" v-lazy :data_src="img_Pz_0051"></div>
             <div :ref="(el)=>{blogIntroduce[0]=el}" class="blog-introduce">
                 <div class="title blog-introduce-title">
                     写博客、互动小站
@@ -94,7 +104,7 @@ function goNext() {
             </div>
         </section>
         <section class="chunk start-navside" id="three">
-            <div class="navside-restful-pic" v-lazy data-src="/src/assets/images/animations/cols/Pz-0052.jpg"></div>
+            <div class="navside-restful-pic" v-lazy :data_src="img_Pz_0052"></div>
             <div class="navside-introduce" :ref="(el)=>{navsideIntroduce[0]=el}">
                 <div class="title navside-introduce-title">
                     写博客、互动小站
@@ -118,17 +128,17 @@ function goNext() {
                 <div class="like-tip">CV时长两年半的练习生!</div>
                 <div class="like-list">
                     <div class="like-item like-type-CG">
-                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy data-src="/src/assets/images/avatars/av-0005.png"></div>
+                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy :data_src="img_av_0005"></div>
                         <div class="like-type-title">CG</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
                     <div class="like-item like-type-ACG">
-                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy data-src="/src/assets/images/avatars/av-0001.jpg"></div>
+                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy :data_src="img_av_0001 "></div>
                         <div class="like-type-title">ACG</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
                     <div class="like-item like-type-Music">
-                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy data-src="/src/assets/images/avatars/av-0002.jpg"></div>
+                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy :data_src="img_av_0002"></div>
                         <div class="like-type-title">Music</div>
                         <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
                     </div>
@@ -206,7 +216,7 @@ function goNext() {
             height: 16rem;
             /* border: var(--debug-border); */
             /* border: solid red; */
-            /* background: url("/src/assets/images/avatars/av-0002.jpg") no-repeat center / cover; */
+            /* background: url("@/assets/images/avatars/av-0002.jpg") no-repeat center / cover; */
             /* animation: jumpAnimation 1s infinite; */
 
             .img {
