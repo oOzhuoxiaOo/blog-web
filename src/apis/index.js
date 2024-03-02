@@ -1,15 +1,16 @@
 import axios from "axios";
 import blogConfig from "@/config/blog.config.js";
 import { ElMessage } from "element-plus";
+
 // TODO:->bug,router为undefined
 // import { useRouter } from 'vue-router'
 // const router = useRouter()
 // console.log('apis里router')
-
+const BASE_URL = import.meta.env.VITE_BASE_URL
 // 创建axios实例
 export const httpInstance = axios.create({
     // 创建baseUrl地址
-    baseURL: blogConfig['baseUrl'],
+    baseURL: BASE_URL,
     // 统一请求头
     headers: {
         // 表单常用默认头
