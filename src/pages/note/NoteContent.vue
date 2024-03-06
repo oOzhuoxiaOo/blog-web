@@ -60,7 +60,7 @@
                             <div class="leve2-item" v-for="(childItem, i) in item.children" :key="i">
                                 <div class="flex-left">
                                     <div class="avatar">
-                                        <img :src="'https://gravatar.com/avatar/'+stringToHash(item.email.trim())"
+                                        <img :src="'https://gravatar.com/avatar/'+stringToHash(childItem.email)"
                                             alt="">
                                     </div>
                                 </div>
