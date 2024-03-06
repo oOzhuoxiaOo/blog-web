@@ -45,6 +45,7 @@ onMounted(()=>{
     display: flex;
     padding: 1rem 1rem;
     flex-direction: column;
+    
     background-color: var(--secondary-bg-color);
 
     .main-title {
@@ -62,15 +63,25 @@ onMounted(()=>{
 }
 
 .friend-item {
+    @friend-height:100px;
+    @image-height:@friend-height * 0.8;
     // border: solid;
     display: flex;
+    align-items: center;
     box-shadow: var(--cart-boxShadow);
-    height: 100px;
+    height: @friend-height;
     width: 48%;
     margin: 1%;
 
     @media screen and (max-width: 765px) {
         width: 98%;
+    }
+    transition: all ease 0.3s;
+    &:hover {
+        transform: translateY(-8px);
+        scale: 1.05;
+        cursor: pointer;
+
     }
 
     .content {
@@ -82,29 +93,31 @@ onMounted(()=>{
         // flex: 1;
         .title {
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1rem;
             color: rgb(222, 62, 62);
-            padding: 0.5rem 0;
+            padding: 0.3rem 0;
         }
 
         .text {
-            padding: 0.5rem 0;
-            font-size: 1rem;
+            padding: 0.3rem 0;
+            font-size: 0.8rem;
         }
     }
 
     .avatar {
         // position: relative;
-        width: 6rem;
-        height: 0;
-        padding-bottom: 100%;
+        width: @image-height;
+        height: @image-height;
+        //padding-bottom: 100%;
+        overflow: hidden;
 
         // overflow: hidden;
         img {
             // display: block;
             border-radius: 50%;
             width: 100%;
-            // height: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     }
 }</style>

@@ -22,9 +22,9 @@ export const httpInstance = axios.create({
 
 // 请求拦截器
 httpInstance.interceptors.request.use(function (config) {
-    let token = localStorage.getItem('token');
+    // let token = localStorage.getItem('token');
     // 设置token在请求头Authorization
-    config.headers.Authorization = token
+    // config.headers.Authorization = token
     return config
 }, (error) => {
     // 对请求错误做些什么

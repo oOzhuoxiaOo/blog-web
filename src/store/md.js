@@ -43,27 +43,28 @@ export const useMdStore = defineStore('markdown',()=>{
         }
     }
 
-    async function checkLogin(){
-        try {
+    // async function checkLogin(){
+    //     try {
             
-            let dataRes = await $http(
-                {
-                    method:"get",
-                    url:'/api/user/auth/login',
-                }
-            )
-            if(dataRes.code == 10) {
-                // 更新登录状态
-                state.isLogin.value = false
-            } else {
-                state.isLogin.value = true
-            }
-        } catch(err) {
-            console.error(err)
-        }
-    }
+    //         let dataRes = await $http(
+    //             {
+    //                 method:"get",
+    //                 url:'/api/user/auth/login',
+    //             }
+    //         )
+    //         if(dataRes.code == 10) {
+    //             // 更新登录状态
+    //             state.isLogin.value = false
+    //         } else {
+    //             state.isLogin.value = true
+    //         }
+    //     } catch(err) {
+    //         console.error(err)
+    //     }
+    // }
 
     // 请求所有标签
+    
     async function getAllTags(){
         try {
             let dataRes = await $http({
@@ -123,7 +124,7 @@ export const useMdStore = defineStore('markdown',()=>{
         getNotesByTypeId,
         getNotesByTagId,
 
-        checkLogin
+        // checkLogin
         
     }
 })
