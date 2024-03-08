@@ -66,7 +66,6 @@ const querySearchAsync = async (queryString, cb) => {
         <router-link to="/note/nav" class="nav-item" active-class="route-active">Note</router-link>
         <!-- <router-link to="/about" class="nav-item" active-class="route-active">About</router-link> -->
         <router-link to="/note/cate" class="nav-item" active-class="route-active">归档</router-link>
-
         <router-link to="/note/friend" class="nav-item" active-class="route-active">友链</router-link>
         <div class="mobile-nav-item more" @click="handleShowAuthor">
           <IconMore />
@@ -77,7 +76,7 @@ const querySearchAsync = async (queryString, cb) => {
       </nav>
       <div class="util">
 
-        <el-icon color="#F56C6C" @click="dialogVisible = true">
+        <el-icon color="#F56C6C" size="24" @click="dialogVisible = true">
           <Search />
         </el-icon>
         <div class="appearance">
@@ -239,7 +238,7 @@ const querySearchAsync = async (queryString, cb) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 15px;
 
   .el-icon {
     cursor: pointer;

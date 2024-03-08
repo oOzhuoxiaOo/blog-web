@@ -16,6 +16,9 @@ const getFriends = async()=>{
     console.log("resData为:",resData)
     friendsList.value = resData.data
 }
+// 使用标题功能
+import { useTitle } from "../../hooks/note/useTitle";
+useTitle()
 onMounted(()=>{
     getFriends();
 })

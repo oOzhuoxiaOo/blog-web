@@ -52,7 +52,7 @@ export const router = createRouter({
                 },
                 {
                     path: 'cate',
-                    meta: { title: '分类' },
+                    meta: { title: '归档' },
                     component: NoteCate
                 },
                 {
@@ -86,12 +86,5 @@ const userInfoStore = useUserInfoStore();
 // from 当前导航正要离开的路由对象，包含了当前的路由信息
 // next 函数，控制导航的行为，可以接收一个参数，指定导航的目标路由
 router.beforeEach(async (to, from, next) => {
-    // 是否需要身份验证(路由权限、本地token存在)
-    if (!to.meta.requiresAuth || userInfoStore.authFromLocal()) {
-        console.log('需要登录权限,并且具有token')
-        next()
-    } else {
-        // 没有登录则跳转登录页
-        next('/login');
-    }
+    next();
 })

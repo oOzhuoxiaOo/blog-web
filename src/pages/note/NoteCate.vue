@@ -14,8 +14,8 @@ import { getBlogTypes, getBlogTypeById } from "@/apis/types";
 // others
 // 使用标题功能
 import { useTitle } from "../../hooks/note/useTitle";
-import { init } from "echarts";
 useTitle()
+
 
 
 // ⭐init

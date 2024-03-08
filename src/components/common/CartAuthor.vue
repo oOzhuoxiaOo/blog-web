@@ -1,6 +1,6 @@
 <template>
     <div class="cart cart-author">
-        <div class="author-avatar"></div>
+        <div class="author-avatar"><img v-if="requestStatus" :src="webSiteMaster.userInfo.avatar" alt=""></div>
         <div class="author-name">D-Xiana</div>
         <div class="author-description">D-xiana's blog</div>
         <div class="author-state">
@@ -136,7 +136,13 @@ onMounted(()=>{
     height: 100px;
     border-radius: 50%;
     border: solid;
-    background: url("@/assets/images/avatars/av-0001.jpg") center / cover;
+    overflow: hidden;
+    // background: url("@/assets/images/avatars/av-0001.jpg") center / cover;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 
 .author-name {
