@@ -1,11 +1,13 @@
 <template>
     <div class="cart-note-list">
-        <TransitionGroup enter-active-class="animate__animated animate__fadeInUp">
-            <div class="note-item" @click="goNoteContent(item, index)" v-for="(item, index) in store.notesData"
+ 
+            <div class="note-item" @click="goNoteContent(item._id)" v-for="(item, index) in store.notesData"
                 ref="noteItems" :key="item._id">
-                <NoteItem :note="item" :order="index % 2 == 0 ? 0 : 1" />
+                <div class="noteItemHover xn-hover-inup">
+                    <NoteItem :note="item" :order="index % 2 == 0 ? 0 : 1" />
+                </div>
             </div>
-        </TransitionGroup>
+
     </div>
     <div class="page-nav">
         <div class="back-page" @click="goPageBack" v-show="currentPage !== 1">上一页</div>
@@ -20,11 +22,12 @@
 
 <script setup>
 
-import { onBeforeMount, reactive, onMounted, ref, watch, nextTick, watchEffect } from "vue";
+import { onMounted, ref, watch, nextTick } from "vue";
 import { useMdStore } from "@/store/md";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useBackTop } from "@/hooks/utils/useBackTop";
-import { ElLoading} from "element-plus";
+import { getMe } from "@/apis/me.js";
+import { ElLoading } from "element-plus";
 
 // 使用标题功能
 import { useTitle } from "../../hooks/note/useTitle";
@@ -37,15 +40,14 @@ const scrollAnimate = useScrollAnimate()
 const router = useRouter()
 import NoteItem from "./NoteItem.vue";
 const store = useMdStore()
-
-import { getNoteInfoApi } from "@/apis/noteInfo.js"
+import { getNotes } from "@/apis/notes.js"
 
 
 
 // 初始化笔记数据
 const currentPage = ref(1)
-const getNoteInfo = async()=>{
-    const dataRes = await getNoteInfoApi();
+const getNoteInfo = async () => {
+    const dataRes = await getNotes();
     store.notesData = dataRes.data
 }
 getNoteInfo()
@@ -54,14 +56,14 @@ getNoteInfo()
 
 
 // 路由到笔记内容
-function goNoteContent(item, index) {
+function goNoteContent(noteId) {
     router.push({
         path: '/note/content',
         query: {
-            noteIndex: index
+            noteId
         }
     })
-    store.title = item.title
+    // store.title = item.title
 }
 
 
@@ -70,7 +72,7 @@ function goNoteContent(item, index) {
 async function goPageWhich(pageIdx) {
     currentPage.value = pageIdx
     // const loadingInstance =  ElLoading.service()
-    const dataRes = await getNoteInfoApi({ pageWhich: currentPage.value, pageNum: 10 });
+    const dataRes = await getNotes({ pageWhich: currentPage.value, pageNum: 10 });
     store.notesData = dataRes.data
     await nextTick()
     useBackTop()
@@ -79,7 +81,7 @@ async function goPageWhich(pageIdx) {
 // 下一页
 async function goPageNext() {
     currentPage.value++ //下一页
-    const dataRes = await getNoteInfoApi({ pageWhich: currentPage.value, pageNum: 10 });
+    const dataRes = await getNotes({ pageWhich: currentPage.value, pageNum: 10 });
     store.notesData = dataRes.data
     useBackTop()
 }
@@ -88,7 +90,7 @@ async function goPageNext() {
 async function goPageBack() {
     currentPage-- //上一页
     // store.getNotes({ pageWhich: store.currentPage, pageNum: 10 })
-    const dataRes = await getNoteInfoApi({ pageWhich:currentPage.value, pageNum: 10 });
+    const dataRes = await getNotes({ pageWhich: currentPage.value, pageNum: 10 });
     store.notesData = dataRes.data
     useBackTop()
 }
@@ -96,15 +98,34 @@ async function goPageBack() {
 // 默认页数为1
 let notesPageCount = ref(1);
 
-onMounted(() => {
-    watch(() => store.hasMeInfo, (newVal, oldVal) => {
-        console.log('new:', newVal, 'old:', oldVal)
-        // 数据到了
-        // 根据文章总数算页数
-        const notesCount = store.meInfo.noteInfo.notesCount
-        notesPageCount.value = Math.ceil(notesCount / 10)
-    })
+// ⭐ 源
+let webSiteMaster = ref({});
+let requestStatus = ref(false);
+const initGetMe = async () => {
+    const res = await getMe();
+    webSiteMaster.value = res.data;
+}
 
+const initApi = async () => {
+    await initGetMe();
+    requestStatus.value = true;
+    // const loading = ElLoading.service({
+    //     lock: true,
+    //     text: 'Loading',
+    //     background: 'rgba(0, 0, 0, 0.7)',
+    // })
+    // setTimeout(() => {
+    //     loading.close()
+
+    // }, 500);
+}
+
+
+
+onMounted(async () => {
+    await initApi();
+    const notesCount = webSiteMaster.value.noteInfo.notesCount;
+    notesPageCount.value = Math.ceil(notesCount / 10);
 })
 
 
@@ -112,6 +133,7 @@ onMounted(() => {
 
 // 下拉动画
 let noteItems = ref([]);
+
 onMounted(() => {
     scrollAnimate.start(noteItems, {
         activeClass: ['animate__animated', 'animate__fadeInUp']
@@ -130,22 +152,25 @@ onMounted(() => {
     color: var(--primary-text-color);
 }
 
+// .noteItemHover{
+//     transition: transform 0.2s;
+
+//     &:hover {
+//         transform:rotate(1deg);
+//     }
+// }
 .cart-note-list {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 50px;
     padding: 0 0.5rem;
+    overflow: hidden;
 }
 
 .note-item {
     visibility: hidden;
     cursor: pointer;
-    transition: all 0.2s;
-
-    &:hover {
-        transform: rotate(1deg);
-    }
 }
 
 

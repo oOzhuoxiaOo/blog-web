@@ -55,6 +55,7 @@ if (note.img.isHasImg) {
         flex: 1;
         padding: 1.5rem;
         overflow: hidden;
+
         .note-title {
             /* flex: 1; */
             margin: 1rem 0;
@@ -89,21 +90,24 @@ if (note.img.isHasImg) {
 
     // 左图
     .note-item-pic {
-            width: 40%;
-            background: no-repeat center / cover;
-            clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%);
-            transition: all 0.3s;
+        width: 40%;
+        background: no-repeat center / cover;
+        clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%);
+        transition: all  0.3s;
 
-            &.after {
-                order: 1;
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%);
-            }
+        &.after {
+            order: 1;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%);
         }
+    }
 
     &:hover {
         .note-item-pic {
-            /* background-size: 120%; */
-            transform: scale(1.08);
+            // background-size: 110%  auto;
+            background-position: center 20%;
+            transform: scale(1.05);
+
+
         }
     }
 

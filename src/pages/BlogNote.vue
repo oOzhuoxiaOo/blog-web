@@ -92,6 +92,7 @@ import img_Pz_0052 from "@/assets/images/animations/cols/Pz-0052.jpg"
     // padding: 0 8%;
     // margin: 0 max(8%);
     /* border: solid; */
+    // overflow:hidden;
     max-width: 1200px;
     margin: 0 auto;
     border: var(--debug-border);

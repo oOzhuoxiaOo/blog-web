@@ -69,9 +69,9 @@ export const useMdStore = defineStore('markdown',()=>{
         try {
             let dataRes = await $http({
                 method:'get',
-                url:'/api/web/tags',
+                url:'/api/web/notes/tags',
             })
-            state.tagsArr.value = res.data
+            state.tagsArr.value = dataRes.data
 
         } catch(err) {
             console.error(err)
@@ -82,7 +82,7 @@ export const useMdStore = defineStore('markdown',()=>{
         try {
             let dataRes = await $http({
                 method:'get',
-                url:'/api/web/types',
+                url:'/api/web/notes/types',
             })
             state.typesArr.value = dataRes.data
 
@@ -94,7 +94,10 @@ export const useMdStore = defineStore('markdown',()=>{
     async function getNotesByTypeId(_typeId){
         try {
             let url = '/api/web/notes/types/' + _typeId
-            let res = await $http.get(url)
+            let res = await $http({
+                method:'get',
+                url,
+            })
             state.cateShowArr.value = res.data.data
 
         } catch(err) {
@@ -105,7 +108,10 @@ export const useMdStore = defineStore('markdown',()=>{
     async function getNotesByTagId(_tagId){
         try {
             let url = '/api/web/notes/tags/' + _tagId
-            let res = await $http.get(url)
+            let res = await $http({
+                method:'get',
+                url,
+            })
             state.cateShowArr.value = res.data.data
 
         } catch(err) {

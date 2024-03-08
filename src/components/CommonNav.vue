@@ -2,6 +2,11 @@
 
 // 引入hook 关于导航伸展功能的组合函数
 import { useNavScroll } from "../hooks/utils/useNavScroll";
+
+import { getSearchNotes } from "@/apis/search.js";
+
+import { useRouter } from "vue-router";
+
 const navScroll = useNavScroll(); //使用导航伸展功能
 const isHide = navScroll.isHide //引用是否隐藏状态
 const rules = navScroll.rules //引用配置规则
@@ -13,7 +18,10 @@ import { ref } from "vue";
 
 import CartAuthor from "@/components/common/CartAuthor.vue";
 
+const router = useRouter();
 const showAuthor = ref(false)
+const dialogVisible = ref(false)
+const state = ref('')
 
 function handleShowAuthor() {
   showAuthor.value = true
@@ -22,6 +30,30 @@ function handleHideAuthor() {
   showAuthor.value = false
 }
 
+const handleSelect = (item) => {
+  console.log("handleSelect");
+  console.log(item);
+  router.push({
+    path: '/note/content',
+    query: {
+      noteId:item._id
+    }
+  })
+  dialogVisible.value = false;
+  state.value = "";
+
+}
+const querySearchAsync = async (queryString, cb) => {
+  const res = await getSearchNotes(state.value);
+  console.log("res", res)
+  let notesList = res.data;
+  notesList.forEach((item, idx) => {
+    item.value = item.title;
+  })
+  console.log("querySearch");
+  cb(notesList)
+
+}
 </script>
 
 
@@ -33,7 +65,8 @@ function handleHideAuthor() {
         <router-link to="/" class="nav-item" active-class="route-active">Home</router-link>
         <router-link to="/note/nav" class="nav-item" active-class="route-active">Note</router-link>
         <!-- <router-link to="/about" class="nav-item" active-class="route-active">About</router-link> -->
-        <!-- <router-link to="/about" class="nav-item" active-class="route-active">About</router-link> -->
+        <router-link to="/note/cate" class="nav-item" active-class="route-active">归档</router-link>
+
         <router-link to="/note/friend" class="nav-item" active-class="route-active">友链</router-link>
         <div class="mobile-nav-item more" @click="handleShowAuthor">
           <IconMore />
@@ -42,8 +75,14 @@ function handleHideAuthor() {
           <IconSet />
         </div>
       </nav>
-      <div class="appearance">
-        <div class="appearance-slip"></div>
+      <div class="util">
+
+        <el-icon color="#F56C6C" @click="dialogVisible = true">
+          <Search />
+        </el-icon>
+        <div class="appearance">
+          <div class="appearance-slip"></div>
+        </div>
       </div>
     </div>
     <Transition enter-active-class="animate__animated animate__fadeInLeft"
@@ -51,9 +90,22 @@ function handleHideAuthor() {
       <div class="cart-author" v-show="showAuthor">
         <CartAuthor />
       </div>
-  
+
     </Transition>
     <div class="mask" v-show="showAuthor" @click="handleHideAuthor"></div>
+
+    <el-dialog v-model="dialogVisible" title="" width="500">
+      <el-autocomplete v-model="state" :fetch-suggestions="querySearchAsync" placeholder="Please input"
+        @select="handleSelect" />
+      <template #footer>
+        <div class="dialog-footer">
+          <!-- <el-button @click="dialogVisible = false">取消</el-button> -->
+          <!-- <el-button type="primary" @click="handlePublishComment(2)">
+            发布评论
+          </el-button> -->
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -179,6 +231,18 @@ function handleHideAuthor() {
     /* background-color: #fff; */
     transition: all 0.5s ease;
     background-color: var(--primary-bg-color);
+  }
+}
+
+.util {
+  // z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  .el-icon {
+    cursor: pointer;
   }
 }
 </style>

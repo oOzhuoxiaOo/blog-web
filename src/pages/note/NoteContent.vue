@@ -1,17 +1,21 @@
 <template>
     <div class="note-content">
         <div class="main-info">
-            <div class="cart-info main-info-date">
-                <IconClock />
-                <div class="note-date">{{ filteredDate }}</div>
+            <div class="xn-hover-inup">
+                <div class="cart-info main-info-date animate__animated animate__fadeInLeft">
+                    <IconClock />
+                    <div class="note-date" v-if="status">{{ filteredDate }}</div>
+                </div>
             </div>
             <!-- 类别 -->
-            <div class="cart-info main-info-date">
-                <IconClock />
-                <div class="note-date">{{ noteItem.type.typename }}</div>
+            <div class="xn-hover-inup">
+                <div class="cart-info main-info-date animate__animated animate__fadeInLeft">
+                    <IconClock />
+                    <div class="note-date" v-if="status">{{ noteItem.type.typename }}</div>
+                </div>
             </div>
             <div class="main-info-tags">
-                <div class="cart-info tag-item" v-for="item in noteItem.tags">
+                <div class="cart-info tag-item animate__animated animate__fadeInLeft" v-if="status" v-for="item in noteItem.tags">
                     <IconTag />
                     <div class="tag-title">{{ item.tagname }}</div>
                 </div>
@@ -41,11 +45,10 @@
                 <el-button type="primary" class="publish-comment" @click="handlePublishComment(1)">发布评论</el-button>
             </div>
             <div class="commentList">
-                <div class="comment-item" v-for="(item, idx) in noteItem.comments" :key="idx">
+                <div class="comment-item" v-if="status" v-for="(item, idx) in noteItem.comments" :key="idx">
                     <div class="flex-left">
                         <div class="avatar">
-                            <img :src="'https://gravatar.com/avatar/'+stringToHash(item.email)"
-                                alt="">
+                            <img :src="'https://gravatar.com/avatar/' + stringToHash(item.email)" alt="">
                         </div>
                     </div>
                     <div class="flex-right">
@@ -53,14 +56,14 @@
                         <div class="content">{{ item.content }}</div>
                         <div class="other">
                             <div class="time">{{ moment(item.createdAt).format("yyyy-MM-DD") }}</div>
-                            <div class="review" @click="handleDialogToggle(item._id,item.nickname)">回复</div>
+                            <div class="review" @click="handleDialogToggle(item._id, item.nickname)">回复</div>
 
                         </div>
                         <div class="comment-level2-list">
                             <div class="leve2-item" v-for="(childItem, i) in item.children" :key="i">
                                 <div class="flex-left">
                                     <div class="avatar">
-                                        <img :src="'https://gravatar.com/avatar/'+stringToHash(childItem.email)"
+                                        <img :src="'https://gravatar.com/avatar/' + stringToHash(childItem.email)"
                                             alt="">
                                     </div>
                                 </div>
@@ -70,7 +73,8 @@
                     childItem.targetNickName }}</span> {{ "：" }} {{ childItem.content }}</div>
                                     <div class="other">
                                         <div class="time">{{ moment(childItem.createdAt).format("yyyy-MM-DD") }}</div>
-                                        <div class="review" @click="handleDialogToggle(item._id,childItem.nickname)">回复</div>
+                                        <div class="review" @click="handleDialogToggle(item._id, childItem.nickname)">回复
+                                        </div>
 
                                     </div>
 
@@ -81,7 +85,7 @@
                 </div>
             </div>
         </div>
-        <el-dialog v-model="dialogVisible" title="回复" width="500" :before-close="handleClose">
+        <el-dialog v-model="dialogVisible" title="回复" width="500" >
             <div class="comon-inputBox">
                 <div class="top">
                     <div class="nickname">
@@ -113,52 +117,64 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, onUnmounted, ref, reactive, computed } from "vue";
+// ⭐库
+import { onBeforeMount, onMounted, ref, reactive, computed } from "vue";
 import { useMdStore } from '@/store/md'
-import { useRoute } from "vue-router";
+import { useRoute, onBeforeRouteUpdate  } from "vue-router";
 import moment from "moment";
-
 import { useChapterScroll } from "@/hooks/note/useChapterScroll";
-
 import IconClock from "@/components/icons/IconClock.vue";
 import IconTag from "@/components/icons/IconTag.vue";
-
-
-
-// 哈希
 import { SHA256 } from "crypto-js";
-function stringToHash(inputString){
-  const hashedString = SHA256(inputString).toString();
-  return hashedString;
+import { getNoteByNoteId } from "@/apis/notes.js";
+
+onBeforeRouteUpdate(async(to,from)=>{
+    console.log("update-to",to)
+    console.log("update-from",from)
+    noteId.value = to.query.noteId;
+    await initApi();
+    setChapter();
+
+})
+
+function stringToHash(inputString) {
+    const hashedString = SHA256(inputString).toString();
+    return hashedString;
 }
-
-
 
 const store = useMdStore()
 const route = useRoute()
 
 useChapterScroll()
 
-const noteIndex = route.query.noteIndex;
-
-const noteItem = store.notesData[noteIndex];
-
-
-
+// ⭐init
+// data
 const noteContentDomRef = ref() //获取dom元素
+const noteId = ref("");
+noteId.value = route.query.noteId;
+console.log("noteId:", noteId)
+const noteItem = ref({});
+let status = ref(false)
 
+// 原
+async function initGetNote() {
+    console.log("initGetNote触发")
+    const res = await getNoteByNoteId(noteId.value);
+    noteItem.value = res.data;
+}
+// total
+async function initApi() {
+    console.log("initApi")
+    await initGetNote();
+    status.value = true;
+    console.log("获取到数据了.:", noteItem.value)
+}
 
-
-// 计算属性格式化时间
-const filteredDate = computed(() => {
-    return moment(noteItem.createTime).format('yyyy-MM-DD')
+onBeforeMount(() => {
+    console.log("onBerforeMount")
 })
 
-
-
-
-// 挂载dom时
-onMounted(() => {
+const setChapter = () => {
     const noteContentDomNodeList = noteContentDomRef.value.querySelectorAll('h1,h2,h3,h4,h5,h6')
     const chapterArr = Array.from(noteContentDomNodeList).map((dom) => {
         return {
@@ -168,11 +184,24 @@ onMounted(() => {
     })
     store.chapterDomArr = noteContentDomNodeList
     store.chapterArr = chapterArr
+}
+// onMounted
+onMounted(async () => {
+    console.log("onMounted")
+    await initApi();
+    setChapter();
 })
 
-onUnmounted(() => {
 
+// ⭐other
+// 计算属性格式化时间
+const filteredDate = computed(() => {
+    return moment(noteItem.createTime).format('yyyy-MM-DD')
 })
+
+
+
+
 
 
 // 评论
@@ -187,7 +216,8 @@ let content = ref("");
 let targetNickName = ref("");
 let who = ref("");
 
-noteid.value = noteItem._id;
+noteid.value = noteId.value;
+
 const handlePublishComment = async (level) => {
     dialogVisible.value = false;
     type.value = level;
@@ -198,14 +228,16 @@ const handlePublishComment = async (level) => {
         email: email.value,
         content: content.value
     }
-    if(type.value == 2) {
+    if (type.value == 2) {
         sendData.targetNickName = targetNickName.value;
         sendData.who = who.value;
 
     }
 
     const resData = await postBlogComment(sendData);
+    // 发布评论后从新请求数据
     ElMessage.success(resData.message)
+    await initGetNote();
 }
 
 // 回复
@@ -218,7 +250,7 @@ const clearInputComment = () => {
     content.value = "";
 }
 
-const handleDialogToggle = (commentId,commentName) => {
+const handleDialogToggle = (commentId, commentName) => {
     dialogVisible.value = true
     who.value = commentId;
     targetNickName.value = commentName;
@@ -369,69 +401,69 @@ const handleDialogToggle = (commentId,commentName) => {
 }
 
 .comon-inputBox {
-        @width-input: 30%;
+    @width-input: 30%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 5px;
+
+    // border: solid;
+    // background-color: #000000;
+    .top {
         display: flex;
-        flex-wrap: wrap;
-        gap: 15px 5px;
+        justify-content: space-between;
+        gap: 30px;
 
-        // border: solid;
-        // background-color: #000000;
-        .top {
-            display: flex;
-            justify-content: space-between;
-            gap: 30px;
+        .nickname {
 
-            .nickname {
-
-                // width: @width-input;
-                .nickname-input {
-                    width: 100%;
-                    padding: @input-padding;
-                    font-size: @input-font-size;
-                }
-            }
-
-            .email {
-
-                // width: @width-input;
-                .email-input {
-                    width: 100%;
-                    padding: @input-padding;
-                    font-size: @input-font-size;
-                }
-            }
-
-            .web {
-
-                // width: @width-input;
-                .web-input {
-                    width: 100%;
-                    padding: @input-padding;
-                    font-size: @input-font-size;
-                }
-            }
-        }
-
-        .publish-comment {
-            margin-left: auto;
-            // margin-top: 8px;
-        }
-
-        .content {
-            width: 100%;
-
-            .content-input {
-                border: none;
-                outline: none;
-                resize: none;
+            // width: @width-input;
+            .nickname-input {
                 width: 100%;
-                height: 125px;
-                line-height: 1.2rem;
+                padding: @input-padding;
+                font-size: @input-font-size;
+            }
+        }
+
+        .email {
+
+            // width: @width-input;
+            .email-input {
+                width: 100%;
+                padding: @input-padding;
+                font-size: @input-font-size;
+            }
+        }
+
+        .web {
+
+            // width: @width-input;
+            .web-input {
+                width: 100%;
                 padding: @input-padding;
                 font-size: @input-font-size;
             }
         }
     }
+
+    .publish-comment {
+        margin-left: auto;
+        // margin-top: 8px;
+    }
+
+    .content {
+        width: 100%;
+
+        .content-input {
+            border: none;
+            outline: none;
+            resize: none;
+            width: 100%;
+            height: 125px;
+            line-height: 1.2rem;
+            padding: @input-padding;
+            font-size: @input-font-size;
+        }
+    }
+}
 
 .main-info {
     display: flex;

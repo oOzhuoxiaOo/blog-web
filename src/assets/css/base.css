@@ -182,3 +182,14 @@ h2 {
 p {
   font-size: 1rem; /* 相对于基准字体大小的适配文字大小 */
 }
+
+.animate__animated.animate__fadeInUp {
+  --animate-duration: 2s;
+}
+.animate__animated.animate__fadeInRight {
+  --animate-duration: 2s;
+}
+
+.animateFather {
+  overflow: hidden;
+}

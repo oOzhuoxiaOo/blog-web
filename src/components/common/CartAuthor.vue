@@ -6,18 +6,15 @@
         <div class="author-state">
             <div class="state-article">
                 <div>文章</div>
-                <div v-if="store.meInfo">{{ store.meInfo.noteInfo.notesCount }}</div>
-                <div v-else>...loading</div>
+                <div v-if="requestStatus">{{webSiteMaster.noteInfo.notesCount }}</div>
             </div>
             <div class="state-cate">
                 <div>分类</div>
-                <div v-if="store.meInfo">{{ store.meInfo.noteInfo.typeCount }}</div>
-                <div v-else>...loading</div>
+                <div v-if="requestStatus">{{webSiteMaster.noteInfo.typeCount }}</div>
             </div>
             <div class="state-tags">
                 <div>标签</div>
-                <div v-if="store.meInfo">{{ store.meInfo.noteInfo.tagsCount }}</div>
-                <div v-else>...loading</div>
+                <div v-if="requestStatus">{{webSiteMaster.noteInfo.tagsCount }}</div>
             </div>
         </div>
         <div class="author-other-address">
@@ -45,17 +42,32 @@
 </template>
 
 <script setup>
-
+// ⭐ 库
 import { useMdStore } from "@/store/md";
-import { onBeforeMount } from "vue";
+import { onMounted, ref } from "vue";
 import IconBeer from "../../components/icons/IconBeer.vue";
-
 const store = useMdStore()
+import { getMe } from "@/apis/me.js";
 
-// 个人信息相关数据
-onBeforeMount(() => {
-    store.getMeInfo(); //请求个人信息数据
+// ⭐ 源
+let webSiteMaster = ref({});
+let requestStatus = ref(false);
+
+const initGetMe = async()=>{
+    const res = await getMe();
+    webSiteMaster.value = res.data;
+}
+
+ const initApi = async()=>{
+    await initGetMe();
+    requestStatus.value = true;
+}
+
+onMounted(()=>{
+    initApi();
+    // store.getMeInfo()
 })
+
 
 
 </script>

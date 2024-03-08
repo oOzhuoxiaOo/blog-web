@@ -1,7 +1,9 @@
 <template>
-    <aside class="aside">
-        <div class="cart cart-author">
-            <CartAuthor/>
+    <aside class="aside" >
+        <div class="xn-hover-inup animateFather">
+            <div class="cart cart-author animate__animated animate__fadeInRight">
+                <CartAuthor/>
+            </div>
         </div>
         <!-- 文章目录路由 -->
         <router-view name="NoteChapter"></router-view>
@@ -32,9 +34,9 @@ function toChapterContent(index) {
 
 // 个人信息相关数据
 
-onBeforeMount(() => {
-    store.getMeInfo(); //请求个人信息数据
-})
+// onBeforeMount(() => {
+//     store.getMeInfo(); //请求个人信息数据
+// })
 
 
 

@@ -1,51 +1,76 @@
 <script setup>
+// 导入库
 import IconTag from "@/components/icons/IconTag.vue";
 import IconCate from "@/components/icons/IconCate.vue";
-
-
-import { useMdStore } from "../../store/md.js";
-import { onMounted } from "vue";
-import { useRouter,useRoute } from "vue-router";
-
-// 使用标题功能
-import { useTitle } from "../../hooks/note/useTitle";
-useTitle() 
-
-const router = useRouter()
-const route = useRoute()
-
-const store = useMdStore()
+import { useRouter } from "vue-router";
+import { onMounted, ref  } from "vue";
 import moment from "moment";
 
-onMounted(()=>{
-    store.getAllTags()
-    store.getAllTypes()
+
+// 导入api
+import { getBlogTags, getBlogTagById } from "@/apis/tags";
+import { getBlogTypes, getBlogTypeById } from "@/apis/types";
+
+// others
+// 使用标题功能
+import { useTitle } from "../../hooks/note/useTitle";
+import { init } from "echarts";
+useTitle()
+
+
+// ⭐init
+// data
+const router = useRouter();
+let tagsList = ref([]);
+let typesList = ref([]);
+let notesList = ref([]);
+
+// 原api
+const initGetBlogTags = async () => {
+    const res = await getBlogTags();
+    tagsList.value = res.data;
+}
+const initGetBlogTypes = async () => {
+    const res = await getBlogTypes();
+    typesList.value = res.data;
+}
+// 事api
+const getNotesByType = async (typeId) => {
+    const res = await getBlogTypeById(typeId);
+    notesList.value = res.data;
+}
+const getNotesByTag = async (tagId) => {
+    const res = await getBlogTagById(tagId);
+    notesList.value = res.data;
+}
+
+const initApis = () => {
+    initGetBlogTags();
+    initGetBlogTypes();
+}
+
+onMounted(() => {
+    initApis();
 })
 
-function getAboutNotesByTypeId(item){
-    let {_id} = item
-    store.getNotesByTypeId(_id)
-}
-function getAboutNotesByTagId(item){
-    let {_id} = item
-    store.getNotesByTagId(_id)
-}
 
-function filterDate(_date){
+
+
+function filterDate(_date) {
     return moment(_date).format('YYYY-MM-DD')
 }
 
 
 // 去笔记内容
 
-function goNoteContent(item,index){
+function goNoteContent(noteId) {
     router.push({
-        path:'/note/content',
-        query:{
-            noteIndex:index
+        path: '/note/content',
+        query: {
+            noteId
         }
     })
-    store.title = item.title
+    // store.title = item.title
 }
 
 </script>
@@ -54,29 +79,34 @@ function goNoteContent(item,index){
     <div class="cate">
         <div class="cate-nav">
             <div class="comon-list types-list">
-                <template v-for="item in store.typesArr">
-                    <div class="comon-btn type-item" @click="getAboutNotesByTypeId(item)">
-                        <IconCate/> <span>{{ item.typename }}</span>
+                <template v-for="item in typesList" :key="item._id">
+                    <div class="xn-hover-inup">
+                        <div class="comon-btn type-item animate__animated animate__fadeInLeft" @click="getNotesByType(item._id)">
+                            <IconCate /> <span>{{ item.typename }}</span>
+                        </div>
                     </div>
                 </template>
             </div>
             <div class="comon-list tags-list">
-                <template v-for="item in store.tagsArr">
-                    <div class="comon-btn tag-item" @click="getAboutNotesByTagId(item)">
-                        <IconTag/> <span>{{ item.tagname }}</span>
+
+                <template v-for="item in tagsList" :key="item._id">
+                    <div class="xn-hover-inup">
+                        <div class="comon-btn tag-item animate__animated animate__fadeInLeft" @click="getNotesByTag(item._id)">
+                            <IconTag /> <span>{{ item.tagname }}</span>
+                        </div>
                     </div>
                 </template>
- 
+
             </div>
         </div>
         <div class="cate-section">
             <div class="note-list">
-                <div class="note-item" v-for="(item,index) in store.cateShowArr" @click="goNoteContent(item,index)">
+                <div class="note-item" v-for="(item, index) in notesList" @click="goNoteContent(item._id)" :key="item._id">
                     <div class="a-restful"></div>
-                    <div class="item-date">{{ filterDate(item.createTime)}}</div>
+                    <div class="item-date">{{ filterDate(item.createTime) }}</div>
                     <div class="item-title">{{ item.title }}</div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -90,6 +120,7 @@ function goNoteContent(item,index){
     /* border: solid; */
     background-color: var(--secondary-bg-color);
     padding: 5rem 3rem;
+
     .cate-nav {
         /* border: solid; */
         border: var(--debug-border);
@@ -104,11 +135,11 @@ function goNoteContent(item,index){
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-        .types-list {
 
-        }
-        .tags-list {
-        }
+        .types-list {}
+
+        .tags-list {}
+
         .comon-btn {
             fill: rgb(202, 32, 32);
             color: rgb(255, 0, 0);
@@ -123,7 +154,7 @@ function goNoteContent(item,index){
             gap: 0.3rem;
             user-select: none;
             cursor: pointer;
-           
+
         }
     }
 
@@ -131,12 +162,14 @@ function goNoteContent(item,index){
         /* border: solid red; */
         border: var(--debug-border);
         margin-top: 3rem;
+
         .note-list {
             /* border: solid blue; */
             border: var(--debug-border);
             display: flex;
             flex-direction: column;
             gap: 1rem;
+
             .note-item {
                 & {
                     display: flex;
@@ -151,23 +184,27 @@ function goNoteContent(item,index){
                     border: var(--debug-border);
                     cursor: pointer;
                 }
+
                 .a-restful {
                     background-color: rgb(181, 68, 68);
                     width: 6px;
                     height: 14px;
                     transition: all 0.3s;
                 }
+
                 .item-title {
                     color: rgb(181, 68, 68);
                     transition: all 0.3s;
                     font-weight: 600;
                 }
+
                 &:hover {
                     .a-restful {
                         background-color: #ff0000;
                         height: 6px;
                         border-radius: 5px;
                     }
+
                     .item-title {
                         color: #ff0000;
                     }

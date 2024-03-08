@@ -8,7 +8,7 @@ import { throttle } from "@/hooks/utils/commonFn";
 const rules = reactive(
     {
         hideDistance: 300,//滚动高度限制
-        delay:500 // 节流时间间隔
+        delay:300 // 节流时间间隔
     }
 
 )

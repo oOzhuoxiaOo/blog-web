@@ -1,0 +1,6 @@
+.xn-hover-inup {
+    transition: transform 0.2s ease;
+}
+.xn-hover-inup:hover {
+    transform: scale(1.02);
+}

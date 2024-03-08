@@ -43,6 +43,8 @@ function toChapterContent(index){
     position: sticky;
     top: 3rem;
     padding: 1rem !important;
+    max-height: 500px;
+    overflow: auto;
 
     .chapter-info {
         display: flex;
@@ -53,7 +55,7 @@ function toChapterContent(index){
         color: rgb(226, 79, 79);
 
         .chapter-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
 
         }
     }
@@ -63,10 +65,12 @@ function toChapterContent(index){
         margin-top: 0.5rem;
 
         .chapter-item {
-            height: 2.4rem;
-            line-height: 2.4rem;
+            // height: 2.4rem;
+            // line-height: 2.4rem;
             /* border: solid; */
+            font-size: 16px;
             padding-left: 5px;
+            margin: 8px 0px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -82,8 +86,8 @@ function toChapterContent(index){
 
         .chapter-active {
             /* border: solid !important; */
-            background-color: rgb(189, 79, 79);
-            color: var(--primary-text-color);
+            // background-color: rgb(189, 79, 79);
+            color: #c90000;;
         }
 
     }
