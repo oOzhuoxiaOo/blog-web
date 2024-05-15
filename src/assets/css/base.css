@@ -5,8 +5,8 @@
   --navbar-text-color: #ffffff; /* 导航栏文本色 */
 
   /* 背景 */
-  --primary-bg-color: #f8f8f8; /* 主要背景色 */
-  --secondary-bg-color: #f1f1f1; /* 辅助背景色 */
+  --primary-bg-color: #e6e6e6; /* 主要背景色 */
+  --secondary-bg-color: #ffffff; /* 辅助背景色 */
   --secondary-bg-color: #f1f1f1; /* 辅助背景色 */
 
   /* 文字 */
@@ -25,7 +25,7 @@
   /* 边框 */
   --border-color: #444444; /* 边框颜色 */
 
-  /* 强调色 */
+  /* 强调色 */ 
   --primary-emphasis-color: #007bff; /* 主要强调色 */
   --secondary-emphasis-color: #ffcc66; /* 次要强调色 */
 }
@@ -76,6 +76,10 @@
   --secondary-text-color: #999999;
   --other-text-color: rgb(119, 119, 119);
   --link-color: #75aaff;
+
+  /* title */
+  --primary-title-color:#ff5e5e;
+  --secondary-title-color: #bd4f4f;
 
   /* 按钮 */
   --button-bg-color: #444444;
@@ -133,7 +137,7 @@ a {
 body {
   font-family: "Arial", "Microsoft YaHei", "黑体", "宋体";
   background-color: var(--primary-bg-color);
-  color: var(--secondary-text-color);
+  color: var(--primary-text-color);
   /* height: 2000px; */
   /* width: 100%; */
   transition: all 0.5s ease;
@@ -160,6 +164,9 @@ html {
 /* 基准字体大小设置为16px */
 html {
   font-size: 16px;
+}
+a {
+  color: var(--primary-text-color);
 }
 
 /* 媒体查询和适配不同屏幕宽度 */

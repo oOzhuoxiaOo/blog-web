@@ -24,6 +24,7 @@ const router = useRouter();
 let tagsList = ref([]);
 let typesList = ref([]);
 let notesList = ref([]);
+let targetId = ref("");
 
 // 原api
 const initGetBlogTags = async () => {
@@ -36,10 +37,12 @@ const initGetBlogTypes = async () => {
 }
 // 事api
 const getNotesByType = async (typeId) => {
+    targetId.value = typeId;
     const res = await getBlogTypeById(typeId);
     notesList.value = res.data;
 }
 const getNotesByTag = async (tagId) => {
+    targetId.value = tagId;
     const res = await getBlogTagById(tagId);
     notesList.value = res.data;
 }
@@ -78,20 +81,21 @@ function goNoteContent(noteId) {
 <template>
     <div class="cate">
         <div class="cate-nav">
+            <h2>类别：</h2>
             <div class="comon-list types-list">
                 <template v-for="item in typesList" :key="item._id">
-                    <div class="xn-hover-inup">
-                        <div class="comon-btn type-item animate__animated animate__fadeInLeft" @click="getNotesByType(item._id)">
+                    <div class="xn-hover-inup" >
+                        <div class="comon-btn type-item animate__animated animate__fadeInLeft" :class="{selected:item._id == targetId}" @click="getNotesByType(item._id)">
                             <IconCate /> <span>{{ item.typename }}</span>
                         </div>
                     </div>
                 </template>
             </div>
+            <h2>标签：</h2>
             <div class="comon-list tags-list">
-
                 <template v-for="item in tagsList" :key="item._id">
                     <div class="xn-hover-inup">
-                        <div class="comon-btn tag-item animate__animated animate__fadeInLeft" @click="getNotesByTag(item._id)">
+                        <div class="comon-btn tag-item animate__animated animate__fadeInLeft" :class="{selected:item._id == targetId}" @click="getNotesByTag(item._id)">
                             <IconTag /> <span>{{ item.tagname }}</span>
                         </div>
                     </div>
@@ -115,6 +119,10 @@ function goNoteContent(noteId) {
 
 
 <style lang="less" scoped>
+.selected {
+    // color: rgb(32, 74, 190) !important;
+    background-color: #a0e2f1 !important;
+}
 .cate {
     border: var(--debug-border);
     /* border: solid; */

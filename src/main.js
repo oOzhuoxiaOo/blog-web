@@ -3,6 +3,7 @@ import 'github-markdown-css/github-markdown.css'
 // 动画 animate.css
 import "animate.css";
 import "@/assets/css/xiana.css"
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 import App from './App.vue'
 // import { router } from "./router/index.js";

@@ -1,10 +1,69 @@
-
 <script setup>
 
-import { ref,onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import IconDown from "../components/icons/IconDown.vue";
 import { useScrollAnimate } from "@/hooks/utils/useScrollAnimate";
 const scrollAnimate = useScrollAnimate()
+
+// ⭐ 库
+
+
+import { getMe } from "@/apis/me.js";
+import { getSet } from "@/apis/set.js";
+
+// ⭐ 源
+let webSiteMaster = ref({});
+let requestStatus = ref(false);
+let webSetting = ref({
+    
+        "aboutMe": "我是夏娜",
+        "announcement": "空的",
+        "originIntroduction": "空的",
+        "isTheme": true,
+        "backgroundImage": "xxx",
+        "hobby": {
+            "totalTitle": "前端开发",
+            "totalDescription": "2年半练习生",
+            "children": [
+                {
+                    "imgUrl": "xxx",
+                    "title": "爱好1",
+                    "description": "描述1",
+                },
+                {
+                    "imgUrl": "xxx",
+                    "title": "爱好2",
+                    "description": "描述2"
+                },
+                {
+                    "imgUrl": "xxx",
+                    "title": "爱好3",
+                    "description": "描述3",
+                }
+            ]
+        }
+    ,
+})
+
+const initGetMe = async () => {
+    const res = await getMe();
+    webSiteMaster.value = res.data;
+}
+const initGetWebSetting = async () => {
+    const res = await getSet();
+    webSetting.value = res.data.web;
+
+}
+
+const initApi = async () => {
+    await initGetMe();
+    requestStatus.value = true;
+    await initGetWebSetting();
+}
+
+
+
+
 
 
 // 动画
@@ -12,18 +71,19 @@ let blogIntroduce = ref([])
 let navsideIntroduce = ref([])
 let avatars = ref([])
 
-onMounted(()=>{
-    scrollAnimate.start(blogIntroduce,{
-        activeClass:['animate__animated','animate__fadeInBottomRight'],
-        threshold:0.2
+onMounted(() => {
+    initApi();
+    scrollAnimate.start(blogIntroduce, {
+        activeClass: ['animate__animated', 'animate__fadeInBottomRight'],
+        threshold: 0.2
     })
-    scrollAnimate.start(navsideIntroduce,{
-        activeClass:['animate__animated','animate__fadeInBottomLeft'],
-        threshold:0.2
+    scrollAnimate.start(navsideIntroduce, {
+        activeClass: ['animate__animated', 'animate__fadeInBottomLeft'],
+        threshold: 0.2
     })
-    scrollAnimate.start(avatars,{
-        activeClass:['animate__animated','animate__zoomInUp'],
-        threshold:0.2
+    scrollAnimate.start(avatars, {
+        activeClass: ['animate__animated', 'animate__zoomInUp'],
+        threshold: 0.2
     })
 })
 function goNext() {
@@ -56,12 +116,11 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
             </div>
             <div class="show-me">
                 <div class="me-avator">
-                    <img class="img" v-lazy :data_src="img_av_0002" alt="头像图片">
+                    <img class="img" v-lazy v-if="requestStatus" :data_src="webSiteMaster.userInfo.avatar" alt="头像图片">
                 </div>
                 <div class="me-introduce">
-                    <p>灼眼の夏娜</p>
-                    <p>千里之行，始于足下</p>
-                    <p>我才不要那么没用</p>
+                    <p v-if="requestStatus">{{ webSiteMaster.userInfo.nickname }}</p>
+                    <p>D-Xiana’s Blog</p>
                 </div>
             </div>
             <div class="show-mask"></div>
@@ -70,16 +129,16 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
             <div class="us-restful-pic" v-lazy :data_src="img_Pz_0013"></div>
             <div class="us-introduce">
                 <div class="introduce-item">
-                    <div class="title">关于我们</div>
-                    <div class="text">一个一天pv只有1000的小站,但还是想要好好做下去...</div>
+                    <div class="title">关于我</div>
+                    <div class="text">{{ webSetting.aboutMe }}</div>
                 </div>
                 <div class="introduce-item">
                     <div class="title">公告</div>
-                    <div class="text">提供各种网站源码下载、导航等网站</div>
+                    <div class="text">{{ webSetting.announcement }}</div>
                 </div>
                 <div class="introduce-item">
-                    <div class="title">开源鸭起始</div>
-                    <div class="text">提供各种网站源码下载、导航等网站，无门凯下载给你丰富的体验</div>
+                    <div class="title">起始</div>
+                    <div class="text">{{ webSetting.originIntroduction }}</div>
                 </div>
             </div>
             <div class="go-next" @click="goNext">
@@ -88,16 +147,16 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
         </section>
         <section class="chunk start-blog" id="two">
             <div class="blog-restful-pic" v-lazy :data_src="img_Pz_0051"></div>
-            <div :ref="(el)=>{blogIntroduce[0]=el}" class="blog-introduce">
+            <div :ref="(el) => { blogIntroduce[0] = el }" class="blog-introduce">
                 <div class="title blog-introduce-title">
-                    写博客、互动小站
+                    览博客小站
                 </div>
                 <div class="tip blog-introduce-tip">
-                    这个是写博客的网站！
+                    浏览博客！
                 </div>
-                <p>还希望大家多多投稿!</p>
-                <p>其实还是每天按时审核的呢</p>
-                <a class="go" href="">进入写博客</a>
+                <!-- <p>文章</p> -->
+                <!-- <p>待</p> -->
+                <!-- <a class="go" href="">待</a> -->
             </div>
             <div class="go-next" @click="goNext">
                 <IconDown :width="30" :height="30" />
@@ -105,16 +164,16 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
         </section>
         <section class="chunk start-navside" id="three">
             <div class="navside-restful-pic" v-lazy :data_src="img_Pz_0052"></div>
-            <div class="navside-introduce" :ref="(el)=>{navsideIntroduce[0]=el}">
+            <div class="navside-introduce" :ref="(el) => { navsideIntroduce[0] = el }">
                 <div class="title navside-introduce-title">
-                    写博客、互动小站
+                    互动小站
                 </div>
                 <div class="tip navside-introduce-tip">
-                    这个是写博客的网站！
+                    可以聊天
                 </div>
-                <p>还希望大家多多投稿!</p>
-                <p>其实还是每天按时审核的呢</p>
-                <a class="go" href="">进入写博客</a>
+                <!-- <p>待</p> -->
+                <!-- <p>待</p> -->
+                <!-- <a class="go" href="">待写</a> -->
             </div>
             <div class="go-next" @click="goNext">
                 <IconDown :width="30" :height="30" />
@@ -124,23 +183,26 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
         <section class="chunk about-like" id="four">
             <div class="like-restful-pic"></div>
             <div class="like-introduce">
-                <div class="like-title">网站设计</div>
-                <div class="like-tip">CV时长两年半的练习生!</div>
+                <div class="like-title">{{ webSetting.totalTitle }}</div>
+                <div class="like-tip">{{ webSetting.totalDescription }}</div>
                 <div class="like-list">
                     <div class="like-item like-type-CG">
-                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy :data_src="img_av_0005"></div>
-                        <div class="like-type-title">CG</div>
-                        <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
+                        <div class="like-type-avatar" :ref="(el) => { avatars.push(el) }" v-lazy :data_src="webSetting.hobby.children[0].imgUrl">
+                        </div>
+                        <div class="like-type-title">{{ webSetting.hobby.children[0].title }}</div>
+                        <div class="like-type-text">{{ webSetting.hobby.children[0].description }}</div>
                     </div>
                     <div class="like-item like-type-ACG">
-                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy :data_src="img_av_0001 "></div>
-                        <div class="like-type-title">ACG</div>
-                        <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
+                        <div class="like-type-avatar" :ref="(el) => { avatars.push(el) }" v-lazy :data_src="webSetting.hobby.children[1].imgUrl">
+                        </div>
+                        <div class="like-type-title">{{ webSetting.hobby.children[1].title }}</div>
+                        <div class="like-type-text">{{ webSetting.hobby.children[1].description }}</div>
                     </div>
                     <div class="like-item like-type-Music">
-                        <div class="like-type-avatar" :ref="(el)=>{avatars.push(el)}" v-lazy :data_src="img_av_0002"></div>
-                        <div class="like-type-title">Music</div>
-                        <div class="like-type-text">入坑作《Clannad》,虽然喜欢绘画，奈何长了一双毫无用处的手，无论今后遇到什么难题，我都选择吃饭、睡觉、打豆豆</div>
+                        <div class="like-type-avatar" :ref="(el) => { avatars.push(el) }" v-lazy :data_src="webSetting.hobby.children[2].imgUrl">
+                        </div>
+                        <div class="like-type-title">{{ webSetting.hobby.children[2].title }}</div>
+                        <div class="like-type-text">{{ webSetting.hobby.children[2].description }}</div>
                     </div>
 
                 </div>
@@ -154,9 +216,7 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
 
 
 
-<style  lang="less" scoped>
-
-
+<style lang="less" scoped>
 .chunk {
     position: relative;
     width: 100%;
@@ -383,10 +443,11 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
         width: 100%;
         height: 50%;
         padding: 3rem;
-        top:auto;
+        top: auto;
         right: auto;
         left: 0;
         bottom: 0;
+
         &::before {
             width: 100%;
             height: 3px;
@@ -403,6 +464,7 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
 /* blog */
 .start-blog {
     overflow: hidden;
+
     .blog-restful-pic {
         .restful-pic();
     }
@@ -411,6 +473,7 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
         .introduce();
         top: 0;
         right: 0;
+
         // 边框
         &::before {
             top: 0;
@@ -423,6 +486,7 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
 
 .start-navside {
     overflow: hidden;
+
     .navside-restful-pic {
         .restful-pic();
     }
@@ -500,19 +564,21 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
                 flex-direction: column;
                 align-items: center;
                 border: var(--debug-border);
-               @media (max-width: 768px) {
-                &::before {
-                    content: '';
-                    display: block;
-                    position: absolute;
-                    // height: 100%;
-                    width: 3px;
-                    top: 40%;
-                    bottom: 40%;
-                    left: -2rem;
-                    background-color: #0d47f6;
+
+                @media (max-width: 768px) {
+                    &::before {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        // height: 100%;
+                        width: 3px;
+                        top: 40%;
+                        bottom: 40%;
+                        left: -2rem;
+                        background-color: #0d47f6;
+                    }
                 }
-               }
+
                 .like-type-avatar {
                     width: 8rem;
                     height: 8rem;
@@ -557,5 +623,4 @@ import img_av_0002 from "@/assets/images/avatars/av-0002.jpg"
         display: none;
     }
 }
-
 </style>

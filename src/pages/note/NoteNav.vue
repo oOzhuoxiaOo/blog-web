@@ -88,7 +88,7 @@ async function goPageNext() {
 
 // 上一页
 async function goPageBack() {
-    currentPage-- //上一页
+    currentPage.value-- //上一页
     // store.getNotes({ pageWhich: store.currentPage, pageNum: 10 })
     const dataRes = await getNotes({ pageWhich: currentPage.value, pageNum: 10 });
     store.notesData = dataRes.data

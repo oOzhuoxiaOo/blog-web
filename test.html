@@ -4,16 +4,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Typing Animation</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .typing-container {
+            text-align: center;
+        }
+
+        .typing-title {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 2px solid #000;
+            white-space: nowrap;
+            margin: 0;
+            font-size: 2em;
+            animation: typing 3s steps(30) infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <input  type="number" required><br>
-    <input  type="email"><br>
-    <input  type="month"><br>
-    <input  type="time"><br>
-    <input  type="date" required><br>
-    <input  type="week"><br>
+    <script>
+        var userAgent = navigator.userAgent;
+
+// 提取操作系统
+function getOS() {
+    var os;
+    if (userAgent.match(/Windows/i)) {
+        os = "Windows";
+    } else if (userAgent.match(/Mac OS/i)) {
+        os = "Mac OS";
+    } else if (userAgent.match(/Linux/i)) {
+        os = "Linux";
+    } else {
+        os = "Unknown";
+    }
+    return os;
+}
+
+// 提取浏览器信息
+function getBrowser() {
+    var browser;
+    if (userAgent.match(/Firefox/i)) {
+        browser = "Firefox";
+    } else if (userAgent.match(/Chrome/i)) {
+        browser = "Chrome";
+    } else if (userAgent.match(/Safari/i)) {
+        browser = "Safari";
+    } else if (userAgent.match(/MSIE/i) || userAgent.match(/Trident/i)) {
+        browser = "Internet Explorer";
+    } else {
+        browser = "Unknown";
+    }
+    return browser;
+}
+console.log("os:",getOS())
+console.log("browser:",getBrowser())
+
+let obj = {
+    name:'xiana',
+    children:{
+        a:10
+    }
+}
+let {a} = obj.children;
+console.log("a",a);
+    </script>
 </body>
 
 </html>

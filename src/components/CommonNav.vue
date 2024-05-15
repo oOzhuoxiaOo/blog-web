@@ -15,9 +15,11 @@ rules.hideDistance = 300 //配置距离
 import IconMore from "@/components/icons/IconMore.vue";
 import IconSet from "@/components/icons/IconSet.vue";
 import { ref } from "vue";
-
+import { Sunny, Moon } from '@element-plus/icons-vue'
 import CartAuthor from "@/components/common/CartAuthor.vue";
 
+
+const value2 = ref(false)
 const router = useRouter();
 const showAuthor = ref(false)
 const dialogVisible = ref(false)
@@ -36,7 +38,7 @@ const handleSelect = (item) => {
   router.push({
     path: '/note/content',
     query: {
-      noteId:item._id
+      noteId: item._id
     }
   })
   dialogVisible.value = false;
@@ -53,6 +55,11 @@ const querySearchAsync = async (queryString, cb) => {
   console.log("querySearch");
   cb(notesList)
 
+}
+
+function themeToggle(){
+  let htmlDom = document.documentElement;
+  htmlDom.classList.toggle("dark-mode")
 }
 </script>
 
@@ -80,7 +87,8 @@ const querySearchAsync = async (queryString, cb) => {
           <Search />
         </el-icon>
         <div class="appearance">
-          <div class="appearance-slip"></div>
+          <el-switch v-model="value2" class="mt-2" style="margin-left: 24px" inline-prompt :active-icon="Sunny"
+            :inactive-icon="Moon" @change="themeToggle" />
         </div>
       </div>
     </div>
@@ -155,7 +163,7 @@ const querySearchAsync = async (queryString, cb) => {
 
 .navbar {
   height: var(--navbar-box-height);
-  background: var(--navbar-bg-color);
+  background: var(--primary-bg-color);
   line-height: var(--navbar-box-height);
   width: 100%;
   padding: 0 10%;
@@ -187,7 +195,7 @@ const querySearchAsync = async (queryString, cb) => {
     padding: 0 12px;
 
     &:hover {
-      color: var(--secondary-text-color);
+      color: var(--primary-emphasis-color);
     }
 
   }
@@ -206,30 +214,9 @@ const querySearchAsync = async (queryString, cb) => {
 
 
 .appearance {
-  display: flex;
-  position: relative;
-  border-radius: 2rem;
-  height: 60%;
-  width: 4rem;
-  /* border: solid; */
-  border: solid var(--secondary-text-color);
-  align-self: center;
-  background-color: var(--order-1-bg-color);
-  cursor: pointer;
-  user-select: none;
-
-  .appearance-slip {
-    position: absolute;
-    text-align: center;
-    width: 50%;
-    height: 100%;
-    line-height: 2rem;
-    border-radius: 50%;
-    top: 0;
-    left: 0;
-    /* background-color: #fff; */
-    transition: all 0.5s ease;
-    background-color: var(--primary-bg-color);
+  .el-switch {
+    --el-switch-on-color: #525457;
+    --el-switch-off-color: #525457;
   }
 }
 

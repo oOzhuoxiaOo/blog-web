@@ -83,7 +83,7 @@ if (note.img.isHasImg) {
             .publish-date {
                 /* width: 100%; */
                 text-align: right;
-                color: var(--secondary-text-color);
+                // color: var(--secondary-text-color);                                                                                          
             }
         }
     }

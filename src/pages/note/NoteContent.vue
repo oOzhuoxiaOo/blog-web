@@ -15,7 +15,8 @@
                 </div>
             </div>
             <div class="main-info-tags">
-                <div class="cart-info tag-item animate__animated animate__fadeInLeft" v-if="status" v-for="item in noteItem.tags">
+                <div class="cart-info tag-item animate__animated animate__fadeInLeft" v-if="status"
+                    v-for="item in noteItem.tags">
                     <IconTag />
                     <div class="tag-title">{{ item.tagname }}</div>
                 </div>
@@ -52,12 +53,17 @@
                         </div>
                     </div>
                     <div class="flex-right">
+
                         <div class="nickname">{{ item.nickname }}</div>
+
+                        <div class="useragent">
+                            <div class="time">{{ moment(item.createdAt).format("yyyy-MM-DD") }}</div>
+                            <div v-if="item.os" class="os">{{ item.os }}</div>
+                            <div v-if="item.browser" class="browser">{{ item.browser }}</div>
+                        </div>
                         <div class="content">{{ item.content }}</div>
                         <div class="other">
-                            <div class="time">{{ moment(item.createdAt).format("yyyy-MM-DD") }}</div>
                             <div class="review" @click="handleDialogToggle(item._id, item.nickname)">回复</div>
-
                         </div>
                         <div class="comment-level2-list">
                             <div class="leve2-item" v-for="(childItem, i) in item.children" :key="i">
@@ -69,10 +75,14 @@
                                 </div>
                                 <div class="flex-right">
                                     <div class="nickname">{{ childItem.nickname }}</div>
-                                    <div class="content">{{ "回复 " }}<span class="reviewName">{{ "@" +
-                    childItem.targetNickName }}</span> {{ "：" }} {{ childItem.content }}</div>
-                                    <div class="other">
+                                    <div class="useragent">
+                                        <div v-if="childItem.os" class="os">{{ childItem.os }}</div>
+                                        <div v-if="childItem.browser" class="browser">{{ childItem.browser }}</div>
                                         <div class="time">{{ moment(childItem.createdAt).format("yyyy-MM-DD") }}</div>
+                                    </div>
+                                    <div class="content">{{ "回复 " }}<span class="reviewName">{{ "@" +
+                        childItem.targetNickName }}</span> {{ "：" }} {{ childItem.content }}</div>
+                                    <div class="other">
                                         <div class="review" @click="handleDialogToggle(item._id, childItem.nickname)">回复
                                         </div>
 
@@ -85,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <el-dialog v-model="dialogVisible" title="回复" width="500" >
+        <el-dialog v-model="dialogVisible" title="回复" width="500">
             <div class="comon-inputBox">
                 <div class="top">
                     <div class="nickname">
@@ -120,7 +130,7 @@
 // ⭐库
 import { onBeforeMount, onMounted, ref, reactive, computed } from "vue";
 import { useMdStore } from '@/store/md'
-import { useRoute, onBeforeRouteUpdate  } from "vue-router";
+import { useRoute, onBeforeRouteUpdate } from "vue-router";
 import moment from "moment";
 import { useChapterScroll } from "@/hooks/note/useChapterScroll";
 import IconClock from "@/components/icons/IconClock.vue";
@@ -128,9 +138,11 @@ import IconTag from "@/components/icons/IconTag.vue";
 import { SHA256 } from "crypto-js";
 import { getNoteByNoteId } from "@/apis/notes.js";
 
-onBeforeRouteUpdate(async(to,from)=>{
-    console.log("update-to",to)
-    console.log("update-from",from)
+
+
+onBeforeRouteUpdate(async (to, from) => {
+    console.log("update-to", to)
+    console.log("update-from", from)
     noteId.value = to.query.noteId;
     await initApi();
     setChapter();
@@ -166,6 +178,7 @@ async function initGetNote() {
 async function initApi() {
     console.log("initApi")
     await initGetNote();
+    store.title = noteItem.value.title 
     status.value = true;
     console.log("获取到数据了.:", noteItem.value)
 }
@@ -369,6 +382,12 @@ const handleDialogToggle = (commentId, commentName) => {
             .flex-right {
                 flex: 1;
 
+                .nickname {
+                    color: rgb(181, 9, 158);
+                    font-weight: bold;
+                    font-size: 1.2rem;
+                }
+
                 .content {
                     margin-top: 5px;
                     border-radius: 5px;
@@ -514,5 +533,23 @@ const handleDialogToggle = (commentId, commentName) => {
 
 .note-description {
     margin-top: 1.5rem;
+}
+
+.useragent {
+    display: flex;
+    margin-top: 5px;
+
+    .os,
+    .browser,
+    .time {
+        padding: 5px;
+        background-color: #ca7676;
+        color: #0d1117;
+        margin-right: 5px;
+    }
+
+    .os {}
+
+    .browser {}
 }
 </style>

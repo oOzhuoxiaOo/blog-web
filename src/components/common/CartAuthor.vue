@@ -1,20 +1,20 @@
 <template>
     <div class="cart cart-author">
         <div class="author-avatar"><img v-if="requestStatus" :src="webSiteMaster.userInfo.avatar" alt=""></div>
-        <div class="author-name">D-Xiana</div>
+        <div class="author-name" v-if="requestStatus">{{ webSiteMaster.userInfo.nickname }}</div>
         <div class="author-description">D-xiana's blog</div>
         <div class="author-state">
             <div class="state-article">
                 <div>文章</div>
-                <div v-if="requestStatus">{{webSiteMaster.noteInfo.notesCount }}</div>
+                <div v-if="requestStatus">{{ webSiteMaster.noteInfo.notesCount }}</div>
             </div>
             <div class="state-cate">
                 <div>分类</div>
-                <div v-if="requestStatus">{{webSiteMaster.noteInfo.typeCount }}</div>
+                <div v-if="requestStatus">{{ webSiteMaster.noteInfo.typeCount }}</div>
             </div>
             <div class="state-tags">
                 <div>标签</div>
-                <div v-if="requestStatus">{{webSiteMaster.noteInfo.tagsCount }}</div>
+                <div v-if="requestStatus">{{ webSiteMaster.noteInfo.tagsCount }}</div>
             </div>
         </div>
         <div class="author-other-address">
@@ -25,16 +25,20 @@
         </div>
         <div class="author-nav">
             <router-link class="nav-item" to="/" active-class="active">
-                <IconBeer/> <div class="text">首页 </div>
+                <IconBeer />
+                <div class="text">首页 </div>
             </router-link>
             <router-link class="nav-item" to="/note/nav" active-class="active">
-                <IconBeer/><div class="text">笔记 </div>
+                <IconBeer />
+                <div class="text">笔记 </div>
             </router-link>
             <router-link class="nav-item" to="/note/friend" active-class="active">
-                <IconBeer/><div class="text">友链 </div>
+                <IconBeer />
+                <div class="text">友链 </div>
             </router-link>
             <router-link class="nav-item" to="/note/cate" active-class="active">
-                <IconBeer/><div class="text">归档 </div>
+                <IconBeer />
+                <div class="text">归档 </div>
             </router-link>
 
         </div>
@@ -53,17 +57,17 @@ import { getMe } from "@/apis/me.js";
 let webSiteMaster = ref({});
 let requestStatus = ref(false);
 
-const initGetMe = async()=>{
+const initGetMe = async () => {
     const res = await getMe();
     webSiteMaster.value = res.data;
 }
 
- const initApi = async()=>{
+const initApi = async () => {
     await initGetMe();
     requestStatus.value = true;
 }
 
-onMounted(()=>{
+onMounted(() => {
     initApi();
     // store.getMeInfo()
 })
@@ -94,10 +98,11 @@ onMounted(()=>{
         transition: all 0.5s;
         color: rgb(137, 43, 43);
         gap: 0.5rem;
+
         &:hover {
             color: rgb(255, 0, 0);
         }
-        
+
     }
 
     .active {
@@ -137,6 +142,7 @@ onMounted(()=>{
     border-radius: 50%;
     border: solid;
     overflow: hidden;
+
     // background: url("@/assets/images/avatars/av-0001.jpg") center / cover;
     img {
         width: 100%;
@@ -175,13 +181,13 @@ onMounted(()=>{
 }
 
 .author-state {
-    > div {
+    >div {
         padding: 0 15px;
         /* border: 1px solid; */
         line-height: 1.5rem;
     }
 
-    > div:nth-child(2) {
+    >div:nth-child(2) {
         border-left: solid 1px;
         border-right: solid 1px;
     }

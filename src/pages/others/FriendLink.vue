@@ -29,7 +29,7 @@ onMounted(()=>{
     <div class="friend">
         <h2 class="main-title">小伙伴们</h2>
         <div class="friend-list">
-            <div class="friend-item" v-for="(item,idx) in friendsList" :key="idx">
+            <a class="friend-item" v-for="(item,idx) in friendsList" :key="idx" :href="item.link" target="_blank">
                 <div class="avatar">
                     <img :src="item.imgUrl" alt="">
                 </div>
@@ -37,7 +37,7 @@ onMounted(()=>{
                     <div class="title">{{ item.name }}</div>
                     <div class="text">{{ item.description }}</div>
                 </div>
-            </div>
+            </a>
 
         </div>
     </div>
